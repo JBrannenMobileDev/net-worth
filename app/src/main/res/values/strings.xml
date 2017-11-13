@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">My Net Worth</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="net_worth">Net worth</string>
+    <string name="create_asset_title">New asset</string>
+    <string name="create_debt_title">New debt</string>
+    <string name="create_account_title">New account</string>
+    <string name="empty_string" />
+
+    <string-array name="category_names">
+        <item>Asset</item>
+        <item>Debt</item>
+    </string-array>
+
+    <string-array name="debt_category_names">
+        <item>Mortgage</item>
+        <item>Automotive loan</item>
+        <item>Credit card</item>
+        <item>Medical</item>
+        <item>Studen loan</item>
+        <item>Personal loan</item>
+        <item>Small business loan</item>
+        <item>Business loan</item>
+        <item>Farm loan</item>
+        <item>Tax debt</item>
+        <item>Mobile phone</item>
+        <item>Financed item</item>
+        <item>Mortgage</item>
+        <item>Uncategorized</item>
+
+    </string-array>
+
+    <string-array name="asset_category_names">
+        <item>Real Estate - Primary</item>
+        <item>Real Estate - Rental</item>
+        <item>Real Estate - Vacation Rental</item>
+        <item>Real Estate</item>
+        <item>Land</item>
+        <item>Website</item>
+        <item>Business</item>
+        <item>Patented technology</item>
+        <item>Domain names</item>
+        <item>Stocks</item>
+        <item>Gold</item>
+        <item>Silver</item>
+        <item>Oil</item>
+        <item>Boat</item>
+        <item>Electronics</item>
+        <item>Collectible</item>
+        <item>Antique</item>
+        <item>Furniture</item>
+        <item>Tools</item>
+        <item>Gun</item>
+        <item>Bonds</item>
+        <item>Mutual funds</item>
+        <item>Exchange-traded funds(ETFs)</item>
+        <item>Hedge funds</item>
+        <item>Money market funds</item>
+        <item>Investments funds</item>
+        <item>Annuities</item>
+        <item>College savings</item>
+        <item>Savings account</item>
+        <item>Checking account</item>
+        <item>Retirement account</item>
+        <item>Term deposits</item>
+        <item>Options</item>
+        <item>Commodity futures</item>
+        <item>Security futures</item>
+        <item>Commodities</item>
+        <item>Currency</item>
+        <item>Derivatives</item>
+        <item>Fine wine</item>
+        <item>Stamps</item>
+        <item>Collector coins</item>
+        <item>Exotic car</item>
+        <item>Classic car</item>
+        <item>Life insurance</item>
+        <item>Peer-to-peer lending</item>
+        <item>Vehicle</item>
+        <item>Fine art</item>
+        <item>Jewelery</item>
+        <item>Uncategorized</item>
+
+    </string-array>
+
+</resources>
