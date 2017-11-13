@@ -39,7 +39,7 @@ public class DeleteAlertDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Are you sure?");
         builder.setPositiveButton("Yes", (dialog, id) -> {
-            mListener.onDeleteAsset(assetName);
+            mListener.onDelete(assetName);
             dismiss();
         });
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> dismiss());
@@ -47,6 +47,6 @@ public class DeleteAlertDialog extends DialogFragment {
     }
 
     public interface YesSelected {
-        void onDeleteAsset(String assetName);
+        void onDelete(String assetName);
     }
 }

@@ -126,7 +126,7 @@ public class AssetDetailsActivity extends AppCompatActivity implements DeleteAle
     }
 
     @Override
-    public void onDeleteAsset(String assetName) {
+    public void onDelete(String assetName) {
         DataManager.getInstance().deleteAsset(assetName);
         Toast.makeText(this, "Asset deleted", Toast.LENGTH_SHORT).show();
         onBackPressed();

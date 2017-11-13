@@ -128,8 +128,8 @@ public class DebtDetailsActivity extends AppCompatActivity implements DeleteAler
     }
 
     @Override
-    public void onDeleteAsset(String assetName) {
-        DataManager.getInstance().deleteAsset(assetName);
+    public void onDelete(String debtName) {
+        DataManager.getInstance().deleteDebt(debtName);
         Toast.makeText(this, "Debt deleted", Toast.LENGTH_SHORT).show();
         onBackPressed();
     }

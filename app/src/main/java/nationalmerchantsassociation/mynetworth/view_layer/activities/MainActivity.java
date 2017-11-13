@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.net_worth_tv)TextView netWorth;
     @BindView(R.id.assets_tv)TextView assetsTv;
     @BindView(R.id.debt_tv)TextView debtTv;
+    @BindView(R.id.empty_state_iv)ImageView emptyStateImage;
+    @BindView(R.id.empty_state_tv)TextView emptyStateTv;
 
     private MainPresenter presenter;
 
@@ -72,12 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initListeners() {
-        addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AddItemAlertDialog().show(getSupportFragmentManager(), null);
-            }
-        });
+        addItem.setOnClickListener(view -> new AddItemAlertDialog().show(getSupportFragmentManager(), null));
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -119,42 +117,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setData(float assets, float debts) {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        entries.add(new BarEntry(0, assets));
-        entries.add(new BarEntry(1, debts));
-
-        BarDataSet set1 = new BarDataSet(entries, "BarDataSet");
-        int barColor = rgb("#ffffff");
-        set1.setColors(barColor);
-        if(mChart.getData() != null && mChart.getData().getDataSetCount() > 0){
-            set1 = (BarDataSet)mChart.getData().getDataSetByIndex(0);
-            set1.setValues(entries);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-            mChart.animateY(1500);
+        if(assets == 0 && debts == 0){
+            emptyStateImage.setVisibility(View.VISIBLE);
+            emptyStateTv.setVisibility(View.VISIBLE);
+            mChart.setVisibility(View.GONE);
         }else {
-            BarData data = new BarData(set1);
-            data.setBarWidth(.95f);
-            data.setValueTextColor(Color.WHITE);
-            data.setValueTextSize(16f);
-            data.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {
-                DecimalFormat formatter = new DecimalFormat("###,###,###");
-                return "$" + formatter.format(value);
-            });
-            data.setDrawValues(true);
-            mChart.setData(data);
-            mChart.invalidate();
-            mChart.animateY(1500);
+            emptyStateImage.setVisibility(View.GONE);
+            emptyStateTv.setVisibility(View.GONE);
+            mChart.setVisibility(View.VISIBLE);
+            ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+            entries.add(new BarEntry(0, assets));
+            entries.add(new BarEntry(1, debts));
+
+            BarDataSet set1 = new BarDataSet(entries, "BarDataSet");
+            int barColor = rgb("#ffffff");
+            set1.setColors(barColor);
+            if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+                set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+                set1.setValues(entries);
+                mChart.getData().notifyDataChanged();
+                mChart.notifyDataSetChanged();
+                mChart.animateY(1500);
+            } else {
+                BarData data = new BarData(set1);
+                data.setBarWidth(.95f);
+                data.setValueTextColor(Color.WHITE);
+                data.setValueTextSize(16f);
+                data.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {
+                    DecimalFormat formatter = new DecimalFormat("###,###,###");
+                    return "$" + formatter.format(value);
+                });
+                data.setDrawValues(true);
+                mChart.setData(data);
+                mChart.invalidate();
+                mChart.animateY(1500);
+            }
         }
     }
 
     @Override
     public void onNetWorthReceived(int previousValue, int netWorthValue) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-        ValueAnimator animator = ValueAnimator.ofInt(previousValue, netWorthValue);
-        animator.setDuration(1500);
-        animator.addUpdateListener(animation -> netWorth.setText("$" + formatter.format(animation.getAnimatedValue())));
-        animator.start();
+        if(netWorthValue == 0){
+            netWorth.setText("     $0     ");
+        }else {
+            ValueAnimator animator = ValueAnimator.ofInt(previousValue, netWorthValue);
+            animator.setDuration(1500);
+            animator.addUpdateListener(animation -> netWorth.setText("$" + formatter.format(animation.getAnimatedValue())));
+            animator.start();
+        }
     }
 
     @Override

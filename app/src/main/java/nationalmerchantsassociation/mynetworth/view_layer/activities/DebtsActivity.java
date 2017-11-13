@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
@@ -58,6 +59,11 @@ public class DebtsActivity extends AppCompatActivity {
 
             }
         };
+        debts.addChangeListener(debts1 -> initRecycler(debts1, debtSelectedCallback));
+        initRecycler(debts, debtSelectedCallback);
+    }
+
+    private void initRecycler(RealmResults<Debt> debts, BaseCallback<Debt> debtSelectedCallback){
         adapter = new RecyclerViewAdapterDebts(debts, debtSelectedCallback);
         mRecyclerView.setAdapter(adapter);
     }

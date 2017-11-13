@@ -37,7 +37,7 @@ public class RealmManager {
     public void deleteAsset(final String assetName){
         realm.executeTransaction(bgRealm -> {
             Asset assetToDelete = bgRealm.where(Asset.class)
-                    .equalTo("description", assetName)
+                    .equalTo("name", assetName)
                     .findFirst();
             if(assetToDelete != null){
                 assetToDelete.deleteFromRealm();
@@ -48,7 +48,7 @@ public class RealmManager {
     public void deleteDebt(final String debtName){
         realm.executeTransaction(bgRealm -> {
             Debt debtToDelete = bgRealm.where(Debt.class)
-                    .equalTo("description", debtName)
+                    .equalTo("name", debtName)
                     .findFirst();
             if(debtToDelete != null){
                 debtToDelete.deleteFromRealm();
