@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.MainActivity"
+    tools:context=".view_layer.activities.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <TextView

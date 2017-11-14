@@ -1,5 +1,7 @@
 package nationalmerchantsassociation.mynetworth.data_layer.database;
 
+import javax.inject.Inject;
+
 import nationalmerchantsassociation.mynetworth.data_layer.database.realm.RealmManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
@@ -11,8 +13,9 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 public class DbManager {
     private RealmManager realmManager;
 
-    public DbManager() {
-        realmManager = new RealmManager();
+    @Inject
+    public DbManager(RealmManager realmManager) {
+        this.realmManager = realmManager;
     }
 
     public void insertOrUpdateAsset(Asset asset){

@@ -10,14 +10,14 @@ import io.realm.annotations.PrimaryKey;
 public class Asset extends RealmObject{
     @PrimaryKey
     private String name;
-    private double marketValue;
+    private double value;
     private String category;
 
     public Asset() {
     }
 
     public Asset(double marketValue, String description, String categroy) {
-        this.marketValue = marketValue;
+        this.value = marketValue;
         this.name = description;
         this.category = categroy;
     }
@@ -38,11 +38,11 @@ public class Asset extends RealmObject{
         this.name = name;
     }
 
-    public double getMarketValue() {
-        return marketValue;
+    public double getValue() {
+        return value;
     }
 
-    public void setMarketValue(double marketValue) {
-        this.marketValue = marketValue;
+    public void setValue(double value) {
+        this.value = value;
     }
 }

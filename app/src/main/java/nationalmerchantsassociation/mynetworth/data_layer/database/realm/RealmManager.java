@@ -14,8 +14,8 @@ public class RealmManager {
 
     private Realm realm;
 
-    public RealmManager() {
-        realm = Realm.getDefaultInstance();
+    public RealmManager(Realm realm) {
+        this.realm = realm;
     }
 
     public List<Asset> getAssets(){

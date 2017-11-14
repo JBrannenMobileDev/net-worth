@@ -7,8 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import nationalmerchantsassociation.mynetworth.R;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.CreateAssetActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.CreateDebtActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt.CreateDebtActivity;
 
 
 /**

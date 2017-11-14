@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     android:paddingTop="15dp"
     android:fitsSystemWindows="true"
-    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.CreateAssetActivity">
+    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

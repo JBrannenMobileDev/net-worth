@@ -60,7 +60,7 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(ViewHolder holder, int position) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         holder.assetName.setText(mDataset.get(position).getName());
-        holder.assetValue.setText("$" + formatter.format(mDataset.get(position).getMarketValue()));
+        holder.assetValue.setText("$" + formatter.format(mDataset.get(position).getValue()));
         holder.category.setText(mDataset.get(position).getCategory());
     }
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:paddingTop="15dp"
-    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.CreateDebtActivity">
+    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt.CreateDebtActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

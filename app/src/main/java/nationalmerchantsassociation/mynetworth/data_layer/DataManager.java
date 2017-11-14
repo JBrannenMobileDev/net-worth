@@ -1,5 +1,7 @@
 package nationalmerchantsassociation.mynetworth.data_layer;
 
+import javax.inject.Inject;
+
 import nationalmerchantsassociation.mynetworth.data_layer.database.DbManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
@@ -9,16 +11,11 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
  */
 
 public class DataManager {
-    private static final DataManager ourInstance = new DataManager();
+    private DbManager dbManager;
 
-    public static DataManager getInstance() {
-        return ourInstance;
-    }
-
-    DbManager dbManager;
-
-    private DataManager() {
-        dbManager = new DbManager();
+    @Inject
+    public DataManager(DbManager dbManager) {
+        this.dbManager = dbManager;
     }
 
     public void insertOrUpdateAsset(Asset asset){
