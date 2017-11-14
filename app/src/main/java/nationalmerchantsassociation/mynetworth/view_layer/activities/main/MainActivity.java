@@ -37,7 +37,6 @@ import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.custom.CustomBarChartRenderer;
 import nationalmerchantsassociation.mynetworth.view_layer.dialog_fragments.AddItemAlertDialog;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;

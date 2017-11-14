@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
-import nationalmerchantsassociation.mynetworth.view_layer.custom.NumberTextWatcher;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
 public class CreateAssetActivity extends AppCompatActivity implements CreateAssetView{
 

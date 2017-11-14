@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.custom;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.main;
 
 import android.text.Editable;
 import android.text.TextWatcher;

@@ -22,9 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
-import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
-import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
-import nationalmerchantsassociation.mynetworth.view_layer.custom.NumberTextWatcher;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 import nationalmerchantsassociation.mynetworth.view_layer.dialog_fragments.DeleteAlertDialog;
 
 public class AssetDetailsActivity extends AppCompatActivity implements DeleteAlertDialog.YesSelected, AssetDetailsView {

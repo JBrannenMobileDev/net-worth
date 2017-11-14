@@ -22,7 +22,6 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt.CreateDebtActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.adapters.RecyclerViewAdapterDebts;
 
 public class DebtsActivity extends AppCompatActivity implements DebtsView{
 

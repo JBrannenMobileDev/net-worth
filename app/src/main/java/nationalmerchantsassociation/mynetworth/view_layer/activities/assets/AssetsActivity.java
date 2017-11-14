@@ -23,7 +23,6 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.adapters.RecyclerViewAdapterAssets;
 
 public class AssetsActivity extends AppCompatActivity implements AssetsView{
 

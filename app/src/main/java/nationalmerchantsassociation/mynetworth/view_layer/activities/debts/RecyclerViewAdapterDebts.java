@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.adapters;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.debts;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
