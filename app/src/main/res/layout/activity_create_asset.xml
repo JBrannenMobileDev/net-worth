@@ -88,7 +88,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="263dp"
-            app:srcCompat="@drawable/circle_net_worth" />
+            app:srcCompat="@drawable/rounded_rectangle_white_border" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/category_spinner"

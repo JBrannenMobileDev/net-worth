@@ -19,11 +19,16 @@ import android.widget.TextView;
 
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
+import nationalmerchantsassociation.mynetworth.utils.PixelDpConversionUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.dialog_fragments.AddItemAlertDialog;
@@ -44,6 +50,7 @@ import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
 
     @BindView(R.id.dashboard_bar_chart) BarChart barChart;
+    @BindView(R.id.line_chart)LineChart lineChart;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle(getString(R.string.empty_string));
         initListeners();
         initBarChart();
+        initLineChart();
         presenter.onCreate();
     }
 
@@ -98,13 +106,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
+    private void initLineChart() {
+        LineData data = getData(6, 100);
+        // add some transparency to the color with "& 0x90FFFFFF"
+        setupLineChart(lineChart, data, getResources().getColor(R.color.colorPrimary));
+    }
+
     public void initBarChart() {
         barChart.setDrawBarShadow(false);
         barChart.getDescription().setEnabled(false);
         barChart.setPinchZoom(false);
         barChart.setDrawGridBackground(false);
-        barChart.setFitBars(true);
+        barChart.setFitBars(false);
         barChart.getLegend().setEnabled(false);
+        barChart.setViewPortOffsets(PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0, PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0);
         barChart.setRenderer(new CustomBarChartRenderer(barChart, barChart.getAnimator(), barChart.getViewPortHandler(), getApplicationContext()));
         XAxis xAxis = barChart.getXAxis();
         xAxis.setEnabled(false);
@@ -147,6 +162,82 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             barChart.invalidate();
             barChart.animateY(1500);
         }
+    }
+
+    private void setupLineChart(LineChart chart, LineData data, int color) {
+
+        ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
+
+        // no description text
+        chart.getDescription().setEnabled(false);
+
+        // mChart.setDrawHorizontalGrid(false);
+        //
+        // enable / disable grid background
+        chart.setDrawGridBackground(false);
+//        chart.getRenderer().getGridPaint().setGridColor(Color.WHITE & 0x70FFFFFF);
+
+        // enable touch gestures
+        chart.setTouchEnabled(false);
+
+        // enable scaling and dragging
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(false);
+
+        chart.setBackgroundColor(Color.TRANSPARENT);
+
+        // set custom chart offsets (automatic offset calculation is hereby disabled)
+        chart.setViewPortOffsets(PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0, PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0);
+
+        // add data
+        chart.setData(data);
+
+        // get the legend (only possible after setting data)
+        Legend l = chart.getLegend();
+        l.setEnabled(false);
+
+        chart.getAxisLeft().setEnabled(false);
+        chart.getAxisLeft().setSpaceTop(40);
+        chart.getAxisLeft().setSpaceBottom(40);
+        chart.getAxisRight().setEnabled(false);
+
+        chart.getXAxis().setEnabled(false);
+
+        // animate calls invalidate()...
+        chart.animateX(500);
+    }
+
+    private LineData getData(int count, float range) {
+
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i++) {
+            float val = (float) (Math.random() * range) + 3;
+            yVals.add(new Entry(i, val));
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(1.5f);
+        set1.setDrawCircleHole(false);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+        set1.setValueTextSize(12f);
+        set1.setValueTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        set1.setDrawValues(false);
+
+        // create a data object with the datasets
+        LineData data = new LineData(set1);
+
+        return data;
     }
 
     @Override
