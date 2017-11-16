@@ -6,6 +6,9 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.create_ass
 
 public interface CreateAssetPresenter {
     void initSpinner(String[] stringArray);
+    void initDateSpinners();
     void saveAsset(String value, String name);
     void saveCategorySelection(String category);
+    void saveMonthSelection(String month);
+    void saveYearSelection(int year);
 }

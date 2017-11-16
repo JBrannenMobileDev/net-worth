@@ -7,7 +7,8 @@ import java.util.List;
  */
 
 public interface CreateAssetView {
-    void initSpinner(List<String> categories);
+    void initSpinners(List<String> categories);
+    void initDateSpinners(List<String> months, List<Integer> years);
     void createValueErrorToast();
     void createNameErrorToast();
     void finish();

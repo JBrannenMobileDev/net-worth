@@ -65,7 +65,7 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
 
     @Override
     public void finish() {
-        finish();
+        super.finish();
     }
 
     @Override

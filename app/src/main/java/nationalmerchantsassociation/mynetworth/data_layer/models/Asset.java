@@ -12,14 +12,34 @@ public class Asset extends RealmObject{
     private String name;
     private double value;
     private String category;
+    private String month;
+    private int year;
 
     public Asset() {
     }
 
-    public Asset(double marketValue, String description, String categroy) {
+    public Asset(double marketValue, String description, String categroy, String month, int year) {
         this.value = marketValue;
         this.name = description;
         this.category = categroy;
+        this.month = month;
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getCategory() {

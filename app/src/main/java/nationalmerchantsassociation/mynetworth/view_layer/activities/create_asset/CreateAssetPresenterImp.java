@@ -7,6 +7,8 @@ import java.util.List;
 
 import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
+import nationalmerchantsassociation.mynetworth.utils.MonthListUtil;
+import nationalmerchantsassociation.mynetworth.utils.YearListUtil;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -16,6 +18,8 @@ public class CreateAssetPresenterImp implements CreateAssetPresenter {
     private CreateAssetView view;
     private DataManager dataManager;
     private String category;
+    private String month;
+    private int year;
 
     public CreateAssetPresenterImp(CreateAssetView createAssetView, DataManager dataManager) {
         this.view = createAssetView;
@@ -26,7 +30,12 @@ public class CreateAssetPresenterImp implements CreateAssetPresenter {
     public void initSpinner(String[] assetCategories) {
         List<String> categories = new ArrayList<>(Arrays.asList(assetCategories));
         Collections.sort(categories);
-        view.initSpinner(categories);
+        view.initSpinners(categories);
+    }
+
+    @Override
+    public void initDateSpinners(){
+        view.initDateSpinners(MonthListUtil.generateMonthList(), YearListUtil.generateYearList());
     }
 
     @Override
@@ -36,7 +45,7 @@ public class CreateAssetPresenterImp implements CreateAssetPresenter {
             if (category == null || category.isEmpty()) {
                 category = "Uncategorized";
             }
-            dataManager.insertOrUpdateAsset(new Asset(intValue, name, category));
+            dataManager.insertOrUpdateAsset(new Asset(intValue, name, category, month, year));
             view.finish();
         }else{
             if(intValue == 0){
@@ -50,5 +59,15 @@ public class CreateAssetPresenterImp implements CreateAssetPresenter {
     @Override
     public void saveCategorySelection(String category){
             this.category = category;
+    }
+
+    @Override
+    public void saveMonthSelection(String month){
+        this.month = month;
+    }
+
+    @Override
+    public void saveYearSelection(int year){
+        this.year = year;
     }
 }
