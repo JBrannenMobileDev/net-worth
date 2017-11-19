@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,18 +21,16 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
+import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.PixelDpConversionUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.empty_state_tv)TextView emptyStateTv;
 
     @Inject MainPresenter presenter;
+    @Inject LineChartUtil lineChartUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle(getString(R.string.empty_string));
         initListeners();
         initBarChart();
-        initLineChart();
+        lineChartUtil.initLineChart(lineChart, getApplicationContext());
         presenter.onCreate();
     }
 
@@ -104,12 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    private void initLineChart() {
-        LineData data = getData(30, 100);
-        // add some transparency to the color with "& 0x90FFFFFF"
-        setupLineChart(lineChart, data, getResources().getColor(R.color.colorPrimary));
     }
 
     public void initBarChart() {
@@ -164,53 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void setupLineChart(LineChart chart, LineData data, int color) {
 
-        ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
-        chart.getDescription().setEnabled(false);
-        chart.setDrawGridBackground(false);
-        chart.setTouchEnabled(false);
-        chart.setDragEnabled(false);
-        chart.setScaleEnabled(false);
-        chart.setPinchZoom(false);
-        chart.setBackgroundColor(Color.TRANSPARENT);
-        chart.setViewPortOffsets(PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0, PixelDpConversionUtil.pxFromDp(getApplicationContext(), 50f), 0);
-        chart.setData(data);
-        Legend l = chart.getLegend();
-        l.setEnabled(false);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisLeft().setSpaceTop(40);
-        chart.getAxisLeft().setSpaceBottom(40);
-        chart.getAxisRight().setEnabled(false);
-        chart.getXAxis().setEnabled(false);
-        chart.animateX(500);
-    }
-
-    private LineData getData(int count, float range) {
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
-            yVals.add(new Entry(i, val));
-        }
-
-        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-
-        set1.setLineWidth(4f);
-        set1.setCircleRadius(2f);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        set1.setDrawCircleHole(false);
-        set1.setColor(Color.WHITE);
-        set1.setCircleColor(Color.WHITE);
-        set1.setHighLightColor(Color.WHITE);
-        set1.setDrawValues(false);
-
-        // create a data object with the datasets
-        LineData data = new LineData(set1);
-
-        return data;
-    }
 
     @Override
     public void setAnimatedNetWorth(int previous, int current) {
@@ -231,6 +180,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setStaticNetWorth(String zero_net_worth) {
         netWorth.setText(zero_net_worth);
+    }
+
+    @Override
+    public void setLineChartData(List<Integer> netWorths){
+        lineChartUtil.udateDataset(netWorths);
     }
 
     @Override

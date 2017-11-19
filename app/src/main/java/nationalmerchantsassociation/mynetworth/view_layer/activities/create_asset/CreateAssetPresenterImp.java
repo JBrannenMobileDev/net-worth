@@ -7,7 +7,7 @@ import java.util.List;
 
 import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
-import nationalmerchantsassociation.mynetworth.utils.MonthListUtil;
+import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
 import nationalmerchantsassociation.mynetworth.utils.YearListUtil;
 
 /**
@@ -35,7 +35,7 @@ public class CreateAssetPresenterImp implements CreateAssetPresenter {
 
     @Override
     public void initDateSpinners(){
-        view.initDateSpinners(MonthListUtil.generateMonthList(), YearListUtil.generateYearList());
+        view.initDateSpinners(MonthConversionUtil.generateMonthList(), YearListUtil.generateYearList());
     }
 
     @Override

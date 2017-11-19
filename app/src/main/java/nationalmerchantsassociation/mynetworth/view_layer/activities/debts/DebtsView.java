@@ -10,4 +10,5 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 public interface DebtsView {
     void updateRecycler();
     void initRecycler(RealmResults<Debt> debts);
+    void setTitleWithTotal(double sum);
 }

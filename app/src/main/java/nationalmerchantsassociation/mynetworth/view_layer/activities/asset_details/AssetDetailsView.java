@@ -1,16 +1,14 @@
 package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details;
 
-import java.util.List;
-
+import io.realm.RealmResults;
+import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 
 /**
- * Created by jbrannen on 11/10/17.
+ * Created by jbrannen on 11/13/17.
  */
 
 public interface AssetDetailsView {
-    void launchAreYouSureDialog(String assetName);
-    void setValueEt(String value);
-    void onSave();
-    void setSavedCategoryName(String category);
-    void initSpinner(List<String> categories);
+    void initRecycler(RealmResults<Asset> assets);
+    void updateRecycler();
+    void setTitleWithTotal(double sum);
 }

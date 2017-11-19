@@ -24,12 +24,12 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".view_layer.activities.create_asset.CreateAssetActivity"
-            android:parentActivityName=".view_layer.activities.main.MainActivity"
+            android:parentActivityName=".view_layer.activities.assets.AssetsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:name=".view_layer.activities.create_debt.CreateDebtActivity"
-            android:parentActivityName=".view_layer.activities.main.MainActivity"
+            android:parentActivityName=".view_layer.activities.debts.DebtsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
@@ -50,6 +50,11 @@
             android:screenOrientation="portrait"
             android:name=".view_layer.activities.debt_details.DebtDetailsActivity"
             android:parentActivityName=".view_layer.activities.debts.DebtsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".view_layer.activities.asset_edit.AssetEditActivity"
+            android:parentActivityName=".view_layer.activities.asset_details.AssetDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

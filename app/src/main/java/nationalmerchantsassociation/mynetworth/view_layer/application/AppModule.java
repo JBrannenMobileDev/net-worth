@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -19,5 +20,10 @@ public class AppModule {
     @Singleton
     Context provideContext(Application application) {
         return application;
+    }
+
+    @Provides
+    LineChartUtil providesLineChartUtil(){
+        return new LineChartUtil();
     }
 }

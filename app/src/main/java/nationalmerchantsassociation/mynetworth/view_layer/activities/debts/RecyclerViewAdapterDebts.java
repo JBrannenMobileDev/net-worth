@@ -60,7 +60,7 @@ public class RecyclerViewAdapterDebts extends RecyclerView.Adapter<RecyclerViewA
     public void onBindViewHolder(ViewHolder holder, int position) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         holder.debtName.setText(mDataset.get(position).getName());
-        holder.debtValue.setText("$" + formatter.format(mDataset.get(position).getValue()));
+        holder.debtValue.setText("$" + formatter.format(mDataset.get(position).getCurrentValueItem().getValue()));
         holder.category.setText(mDataset.get(position).getCategory());
     }
 

@@ -4,6 +4,7 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.main;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
+import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 
 /**
  * Created by jbrannen on 11/13/17.

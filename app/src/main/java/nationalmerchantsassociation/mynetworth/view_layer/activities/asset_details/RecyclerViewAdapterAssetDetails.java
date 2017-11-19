@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.activities.assets;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +13,13 @@ import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 
-import static nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil.*;
+import static nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil.getCurrencyFormatter;
 
 /**
  * Created by jbrannen on 9/2/17.
  */
 
-public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerViewAdapterAssets.ViewHolder> {
+public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<RecyclerViewAdapterAssetDetails.ViewHolder> {
     private List<Asset> mDataset;
     private BaseCallback<Asset> assetSelectedCallback;
 
@@ -29,27 +29,25 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public FrameLayout assetItemLayout;
-        public TextView assetName;
+        public TextView assetDate;
         public TextView assetValue;
-        public TextView category;
         public ViewHolder(View v, final BaseCallback<Asset> rCallback) {
             super(v);
             assetItemLayout = v.findViewById(R.id.asset_item_layout);
-            assetName = v.findViewById(R.id.asset_name);
+            assetDate = v.findViewById(R.id.asset_date);
             assetValue = v.findViewById(R.id.asset_value);
-            category = v.findViewById(R.id.category_text_view);
             assetItemLayout.setOnClickListener(view -> rCallback.onResponse(mDataset.get(getLayoutPosition())));
         }
     }
 
-    public RecyclerViewAdapterAssets(List<Asset> dataset, BaseCallback<Asset> assetSelected) {
+    public RecyclerViewAdapterAssetDetails(List<Asset> dataset, BaseCallback<Asset> assetSelected) {
         mDataset = dataset;
         this.assetSelectedCallback = assetSelected;
     }
 
     @Override
-    public RecyclerViewAdapterAssets.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_item, parent, false);
+    public RecyclerViewAdapterAssetDetails.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_detail_item, parent, false);
 
 
         // set the view's size, margins, paddings and layout parameters
@@ -59,10 +57,8 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        holder.assetName.setText(mDataset.get(position).getName());
+        holder.assetDate.setText(mDataset.get(position).getCurrentValueItem().getMonth() + " " + mDataset.get(position).getCurrentValueItem().getYear());
         holder.assetValue.setText("$" + getCurrencyFormatter().format(mDataset.get(position).getCurrentValueItem().getValue()));
-        holder.category.setText(mDataset.get(position).getCategory());
     }
 
     @Override

@@ -44,10 +44,10 @@
                 <ImageView
                     android:id="@+id/imageView7"
                     android:layout_width="177dp"
-                    android:layout_height="50dp"
+                    android:layout_height="53dp"
                     android:layout_gravity="right"
-                    android:layout_marginTop="243dp"
-                    app:srcCompat="@drawable/rounded_rectangle_white_border" />
+                    android:layout_marginTop="242dp"
+                    app:srcCompat="@drawable/rounded_white_rectangle" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/month_spinner"
@@ -68,10 +68,10 @@
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="115dp"
-                    android:layout_height="50dp"
+                    android:layout_height="53dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="243dp"
-                    app:srcCompat="@drawable/rounded_rectangle_white_border" />
+                    android:layout_marginTop="242dp"
+                    app:srcCompat="@drawable/rounded_white_rectangle" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/year_spinner"
@@ -150,10 +150,10 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="303dp"
-            android:layout_height="50dp"
+            android:layout_height="53dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="338dp"
-            app:srcCompat="@drawable/rounded_rectangle_white_border" />
+            android:layout_marginTop="337dp"
+            app:srcCompat="@drawable/rounded_white_rectangle" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/category_spinner"

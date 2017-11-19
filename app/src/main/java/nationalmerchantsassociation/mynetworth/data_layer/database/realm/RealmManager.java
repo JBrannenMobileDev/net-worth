@@ -22,7 +22,7 @@ public class RealmManager {
         return realm.where(Asset.class).findAll();
     }
 
-    public List<Debt> getDebtss(){
+    public List<Debt> getDebts(){
         return realm.where(Debt.class).findAll();
     }
 
@@ -64,5 +64,13 @@ public class RealmManager {
 
     private void openRealm(){
         realm = Realm.getDefaultInstance();
+    }
+
+    public Asset getAsset(String assetName) {
+        return realm.where(Asset.class).equalTo("name", assetName).findFirst();
+    }
+
+    public Debt getDebt(String debtName) {
+        return realm.where(Debt.class).equalTo("name", debtName).findFirst();
     }
 }

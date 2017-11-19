@@ -8,7 +8,7 @@ import java.util.List;
  * Created by jbrannen on 11/16/17.
  */
 
-public class MonthListUtil {
+public class MonthConversionUtil {
 
     public static List<String> generateMonthList(){
         List<String> months = new ArrayList<>();
@@ -52,7 +52,7 @@ public class MonthListUtil {
         return null;
     }
 
-    private static String monthIntTOString(int month){
+    public static String monthIntTOString(int month){
         switch (month){
             case 0:
                 return "January";
@@ -80,5 +80,35 @@ public class MonthListUtil {
                 return "December";
         }
         return "January";
+    }
+
+    public static int monthStringToInt(String month){
+        switch (month){
+            case "January":
+                return 0;
+            case "February":
+                return 1;
+            case "March":
+                return 2;
+            case "April":
+                return 3;
+            case "May":
+                return 4;
+            case "June":
+                return 5;
+            case "July":
+                return 6;
+            case "August":
+                return 7;
+            case "September":
+                return 8;
+            case "October":
+                return 9;
+            case "November":
+                return 10;
+            case "December":
+                return 11;
+        }
+        return -1;
     }
 }

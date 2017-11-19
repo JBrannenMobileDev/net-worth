@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -21,14 +23,18 @@ import nationalmerchantsassociation.mynetworth.R;
 
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivity;
+import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
+import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
 
 public class AssetsActivity extends AppCompatActivity implements AssetsView{
 
     @BindView(R.id.toolbar_assets)Toolbar toolbar;
     @BindView(R.id.assets_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.assets_line_chart)LineChart lineChart;
     @Inject AssetsPresenter presenter;
+    @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterAssets adapter;
     private RecyclerView.LayoutManager layoutManager;
     private BaseCallback<Asset> assetSelectedCallback;
@@ -39,9 +45,10 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assets);
         ButterKnife.bind(this);
-        setTitle("Assets");
+        setTitle(getString(R.string.assets_title));
         initToolbar();
         initCallbacks();
+        lineChartUtil.initLineChart(lineChart, getApplicationContext());
         presenter.onCreate();
     }
 
@@ -49,7 +56,7 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         assetSelectedCallback = new BaseCallback<Asset>() {
             @Override
             public void onResponse(Asset asset) {
-                Intent intent = new Intent(getApplicationContext(), AssetDetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
                 intent.putExtra("assetName", asset.getName());
                 startActivity(intent);
             }
@@ -89,6 +96,11 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
     @Override
     public void updateRecycler() {
         adapter.notifyDataSetChanged();//TODO implement realm fine grained updates
+    }
+
+    @Override
+    public void setTitleWithTotal(double sum) {
+        setTitle(getString(R.string.assets_title) + "  $" + TextFormatterUtil.getCurrencyFormatter().format((int)sum));
     }
 
     private void initToolbar() {

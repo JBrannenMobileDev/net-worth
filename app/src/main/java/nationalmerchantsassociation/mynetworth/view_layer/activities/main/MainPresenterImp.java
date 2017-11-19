@@ -5,6 +5,7 @@ import io.realm.RealmResults;
 
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
+import nationalmerchantsassociation.mynetworth.utils.LineChartDataMapper;
 
 /**
  * Created by jbrannen on 11/7/17.
@@ -16,7 +17,7 @@ public class MainPresenterImp implements MainPresenter {
     private Realm realm;
     private RealmResults<Asset> assets;
     private RealmResults<Debt> debts;
-    private int previousNetWorth;
+    private int previousNetWorth;//This value is needed fo knowing what value to start the netWorth animation at.
 
     public MainPresenterImp(MainView mainView, Realm mainUiRealm) {
         this.view = mainView;
@@ -31,11 +32,13 @@ public class MainPresenterImp implements MainPresenter {
         assets.addChangeListener(assets -> calculateNetWorth(assets, debts));
         debts.addChangeListener(debts -> calculateNetWorth(assets, debts));
         calculateNetWorth(assets, debts);
+        view.setLineChartData(LineChartDataMapper.mapHistoricalNetWorth(assets, debts, 6));
     }
 
+
     private void calculateNetWorth(RealmResults<Asset> assets, RealmResults<Debt> debts) {
-        double assetValueSum = assets.stream().mapToDouble(Asset::getValue).sum();
-        double debtValueSum = debts.stream().mapToDouble(Debt::getValue).sum();
+        double assetValueSum = assets == null ? 0:assets.stream().mapToDouble(asset -> asset.getCurrentValueItem().getValue()).sum();
+        double debtValueSum = debts == null ? 0:debts.stream().mapToDouble(debt -> debt.getCurrentValueItem().getValue()).sum();
         setBarChartData(assetValueSum, debtValueSum);
         formatNetWorth(previousNetWorth, (int)(assetValueSum-debtValueSum));
         previousNetWorth = (int)(assetValueSum+debtValueSum);

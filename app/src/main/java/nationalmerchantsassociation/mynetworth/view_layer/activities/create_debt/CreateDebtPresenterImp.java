@@ -38,7 +38,7 @@ public class CreateDebtPresenterImp implements CreateDebtPresenter {
     public void saveAsset(String value, String name) {
         Integer amount = Integer.valueOf(value);
         if(amount > 0 && !name.isEmpty() && !name.equalsIgnoreCase("")){
-            dataManager.insertOrUpdateDebt(new Debt(amount, name, category));
+            dataManager.insertOrUpdateDebt(new Debt(amount, name, category, null,0));
             view.finish();
         }else{
             if(amount == 0) {

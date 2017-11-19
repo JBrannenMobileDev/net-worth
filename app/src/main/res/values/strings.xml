@@ -10,6 +10,8 @@
     <string name="create_debt_title">New debt</string>
     <string name="create_account_title">New account</string>
     <string name="empty_string" />
+    <string name="assets_title">Assets</string>
+    <string name="debts_title">Debts</string>
 
     <string-array name="category_names">
         <item>Asset</item>

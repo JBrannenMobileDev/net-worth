@@ -25,6 +25,8 @@ public class DebtsPresenterImp implements DebtsPresenter {
     private void initData() {
         RealmResults<Debt> debts = realm.where(Debt.class).findAllSorted("name");
         debts.addChangeListener(debts1 -> view.updateRecycler());
+        double sum = debts.stream().mapToDouble(debt -> debt.getCurrentValueItem().getValue()).sum();
         view.initRecycler(debts);
+        view.setTitleWithTotal(sum);
     }
 }

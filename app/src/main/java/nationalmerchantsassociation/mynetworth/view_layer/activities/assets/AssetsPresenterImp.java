@@ -24,8 +24,10 @@ public class AssetsPresenterImp implements AssetsPresenter {
     }
 
     private void initData() {
-        RealmResults<Asset> assets = realm.where(Asset.class).findAllSorted("value", Sort.DESCENDING);
+        RealmResults<Asset> assets = realm.where(Asset.class).findAllSorted("name");
         assets.addChangeListener(assetsRealtime -> view.updateRecycler());
+        double sum = assets.stream().mapToDouble(asset -> asset.getCurrentValueItem().getValue()).sum();
         view.initRecycler(assets);
+        view.setTitleWithTotal(sum);
     }
 }

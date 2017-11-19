@@ -69,22 +69,21 @@ public class CreateAssetActivity extends AppCompatActivity implements CreateAsse
     @Override
     public void initSpinners(List<String> categories){
         categorySpinner.setItems(categories);
-        categorySpinner.setOnItemSelectedListener((view, position, id, item) -> {
-            presenter.saveCategorySelection(categories.get(position));
-        });
+        categorySpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveCategorySelection(categories.get(position)));
     }
 
     @Override
     public void initDateSpinners(List<String> months, List<Integer> years){
         monthSpinner.setItems(months);
-        monthSpinner.setOnItemSelectedListener((view, position, id, item) -> {
-            presenter.saveMonthSelection(months.get(position));
-        });
+        presenter.saveMonthSelection(months.get(0));
+        monthSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveMonthSelection(months.get(position)));
 
         yearSpinner.setItems(years);
-        yearSpinner.setOnItemSelectedListener((view, position, id, item) -> {
-            presenter.saveYearSelection(years.get(position));
-        });
+        presenter.saveYearSelection(years.get(0));
+        yearSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveYearSelection(years.get(position)));
     }
 
     @Override

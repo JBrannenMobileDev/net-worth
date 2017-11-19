@@ -10,4 +10,5 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 public interface AssetsView {
     void initRecycler(RealmResults<Asset> assets);
     void updateRecycler();
+    void setTitleWithTotal(double sum);
 }

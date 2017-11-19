@@ -54,7 +54,7 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
         debt = realm.where(Debt.class).equalTo("name", debtName).findFirst();
         category = debt.getCategory();
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-        view.setValueEt("$" + formatter.format(debt.getValue()));
+        view.setValueEt("$" + formatter.format(debt.getCurrentValueItem().getValue()));
         view.setSavedCategoryName(debt.getCategory());
     }
 
@@ -72,7 +72,7 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
     public void onSave(String value) {
         Debt debtToSave = new Debt();
         debtToSave.setName(debt.getName());
-        debtToSave.setValue(Double.valueOf(value));
+        debtToSave.getCurrentValueItem().setValue(Double.valueOf(value));
         debtToSave.setCategory(category);
         dataManager.insertOrUpdateDebt(debtToSave);
         view.onSave();
