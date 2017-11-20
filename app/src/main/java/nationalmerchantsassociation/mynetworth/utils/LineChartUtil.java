@@ -37,12 +37,12 @@ public class LineChartUtil {
     }
 
     private void setupLineChart(LineChart chart, LineData data, int color, Context context) {
-
+        this.context = context;
         ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
         chart.getDescription().setEnabled(false);
         chart.setDrawGridBackground(false);
         chart.setTouchEnabled(true);
-        chart.setDragEnabled(false);
+        chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
         chart.setPinchZoom(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
@@ -53,7 +53,7 @@ public class LineChartUtil {
         l.setEnabled(false);
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(40);
-        chart.getAxisLeft().setSpaceBottom(40);
+        chart.getAxisLeft().setSpaceBottom(10);
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setEnabled(false);
         chart.animateX(500);
@@ -65,8 +65,8 @@ public class LineChartUtil {
             yVals.add(new Entry(i, values.get(i)));
         }
         LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-        set1.setLineWidth(2f);
-        set1.setCircleRadius(1f);
+        set1.setLineWidth(4f);
+        set1.setCircleRadius(2f);
         set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         set1.setDrawCircleHole(false);
         set1.setColor(Color.WHITE);

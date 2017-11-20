@@ -25,7 +25,7 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
 
 public class AssetsActivity extends AppCompatActivity implements AssetsView{
@@ -56,7 +56,7 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         assetSelectedCallback = new BaseCallback<Asset>() {
             @Override
             public void onResponse(Asset asset) {
-                Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AssetDetailsActivity.class);
                 intent.putExtra("assetName", asset.getName());
                 startActivity(intent);
             }

@@ -9,7 +9,7 @@ public interface AssetEditPresenter {
     void onDelete();
     void SpinnerItemSelected(String categoryName);
     void onSave(String accessToken);
-    void onCreate(String assetName);
+    void onCreate(String assetName, String date);
     void initSpinner(String[] stringArray);
     void onDeleteAsset(String assetName);
 }

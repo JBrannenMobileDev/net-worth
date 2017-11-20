@@ -19,10 +19,6 @@ public class DbManager {
         this.realmManager = realmManager;
     }
 
-    public void insertOrUpdateAsset(Asset asset){
-        realmManager.insertOrUpdateAsset(asset);
-    }
-
     public void insertOrUpdateAssetValueItem(ValueItem itemToSave, String assetName){
         Asset asset = realmManager.getAsset(assetName);
         boolean alreadyExists = asset.getAssetValues().stream().anyMatch(item -> item.getDate().equals(itemToSave.getDate()));
@@ -43,6 +39,10 @@ public class DbManager {
             debt.getDebtValues().add(itemToSave);
         }
         realmManager.insertOrUpdateDebt(debt);
+    }
+
+    public void insertOrUpdateAsset(Asset asset){
+        realmManager.insertOrUpdateAsset(asset);
     }
 
     public void insertOrUpdateDebt(Debt debt){

@@ -11,4 +11,5 @@ public interface CreateDebtView {
     void finish();
     void createValueErrorToast();
     void createNameErrorToast();
+    void initDateSpinners(List<String> months, List<Integer> years);
 }

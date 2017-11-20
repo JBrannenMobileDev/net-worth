@@ -26,10 +26,14 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,13 +43,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
+import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
+import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
 import nationalmerchantsassociation.mynetworth.utils.PixelDpConversionUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.dialog_fragments.AddItemAlertDialog;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
+import static nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil.monthIntTOString;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
 
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.net_worth_tv)TextView netWorth;
     @BindView(R.id.empty_state_iv)ImageView emptyStateImage;
     @BindView(R.id.empty_state_tv)TextView emptyStateTv;
+    @BindView(R.id.linechart_title_tv)TextView lineChartTitleTv;
 
     @Inject MainPresenter presenter;
     @Inject LineChartUtil lineChartUtil;
@@ -69,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        setTitle(getString(R.string.empty_string));
+        toolbar.setTitle(CustomDateFormatter.createDate(monthIntTOString(Calendar.getInstance().get(Calendar.MONTH)), Calendar.getInstance().get(Calendar.YEAR)));
         initListeners();
         initBarChart();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
@@ -105,6 +113,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                presenter.onLineChartValueSelected(e.getX());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                presenter.onLineChartNotSelected();
+            }
+        });
     }
 
     public void initBarChart() {
@@ -126,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void setData(float assets, float debts) {
+    public void setData(float assets, float debts, boolean animate) {
         emptyStateImage.setVisibility(View.GONE);
         emptyStateTv.setVisibility(View.GONE);
         barChart.setVisibility(View.VISIBLE);
@@ -142,7 +162,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             set1.setValues(entries);
             barChart.getData().notifyDataChanged();
             barChart.notifyDataSetChanged();
-            barChart.animateY(1500);
+            if(animate) {
+                barChart.animateY(1500);
+            }else{
+                barChart.invalidate();
+            }
         } else {
             BarData data = new BarData(set1);
             data.setBarWidth(.95f);
@@ -162,10 +186,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public void setAnimatedNetWorth(int previous, int current) {
+    public void setAnimatedNetWorth(int previous, int current, long time) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         ValueAnimator animator = ValueAnimator.ofInt(previous, current);
-        animator.setDuration(1500);
+        animator.setDuration(time);
         animator.addUpdateListener(animation -> netWorth.setText("$" + formatter.format(animation.getAnimatedValue())));
         animator.start();
     }
@@ -185,6 +209,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setLineChartData(List<Integer> netWorths){
         lineChartUtil.udateDataset(netWorths);
+    }
+
+    @Override
+    public void setTitle(String date) {
+        toolbar.setTitle(date);
+    }
+
+    @Override
+    public void setLineChartTitle(String lineChartTitle) {
+        lineChartTitleTv.setText(lineChartTitle);
     }
 
     @Override

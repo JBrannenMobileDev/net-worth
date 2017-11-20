@@ -7,6 +7,8 @@ import java.util.List;
 
 import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
+import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
+import nationalmerchantsassociation.mynetworth.utils.YearListUtil;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -16,15 +18,12 @@ public class CreateDebtPresenterImp implements CreateDebtPresenter {
     private CreateDebtView view;
     private DataManager dataManager;
     private String category;
+    private String month;
+    private int year;
 
     public CreateDebtPresenterImp(CreateDebtView createDebtView, DataManager dataManager) {
         this.view = createDebtView;
         this.dataManager = dataManager;
-    }
-
-    @Override
-    public void saveCategories(String category) {
-        this.category = category;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class CreateDebtPresenterImp implements CreateDebtPresenter {
     public void saveAsset(String value, String name) {
         Integer amount = Integer.valueOf(value);
         if(amount > 0 && !name.isEmpty() && !name.equalsIgnoreCase("")){
-            dataManager.insertOrUpdateDebt(new Debt(amount, name, category, null,0));
+            dataManager.insertOrUpdateDebt(new Debt(amount, name, category, month, year));
             view.finish();
         }else{
             if(amount == 0) {
@@ -47,5 +46,25 @@ public class CreateDebtPresenterImp implements CreateDebtPresenter {
                 view.createNameErrorToast();
             }
         }
+    }
+
+    @Override
+    public void initDateSpinners() {
+        view.initDateSpinners(MonthConversionUtil.generateMonthList(), YearListUtil.generateYearList());
+    }
+
+    @Override
+    public void saveCategories(String category) {
+        this.category = category;
+    }
+
+    @Override
+    public void saveMonthSelection(String month) {
+        this.month = month;
+    }
+
+    @Override
+    public void saveYearSelection(Integer year) {
+        this.year = year;
     }
 }

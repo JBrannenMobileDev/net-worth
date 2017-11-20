@@ -8,4 +8,7 @@ public interface CreateDebtPresenter {
     void saveCategories(String category);
     void initSpinner(String[] categories);
     void saveAsset(String value, String name);
+    void initDateSpinners();
+    void saveMonthSelection(String mont);
+    void saveYearSelection(Integer year);
 }

@@ -1,15 +1,13 @@
 package nationalmerchantsassociation.mynetworth.data_layer.models;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import nationalmerchantsassociation.mynetworth.utils.CustomeDateFormatter;
+import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 
 /**
  * Created by jbrannen on 11/17/17.
  */
 
 public class ValueItem extends RealmObject{
-    @PrimaryKey
     private String date;
     private double value;
     private String month;
@@ -24,7 +22,7 @@ public class ValueItem extends RealmObject{
         this.value = value;
         this.month = month;
         this.year = year;
-        this.date = CustomeDateFormatter.createDate(month, year);
+        this.date = CustomDateFormatter.createDate(month, year);
     }
 
     public String getDate(){

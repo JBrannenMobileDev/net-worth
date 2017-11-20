@@ -29,12 +29,77 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="177dp"
+                    android:layout_height="53dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="242dp"
+                    app:srcCompat="@drawable/rounded_white_rectangle" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/month_spinner"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="245dp"
+                    android:backgroundTint="@android:color/background_light"
+                    android:textColor="@color/colorPrimary" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="115dp"
+                    android:layout_height="53dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="242dp"
+                    app:srcCompat="@drawable/rounded_white_rectangle" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/year_spinner"
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="245dp"
+                    android:backgroundTint="@android:color/background_light"
+                    android:textColor="@color/colorPrimary" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="215dp"
+            android:text="As of:"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="302dp"
             android:layout_height="53dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="263dp"
+            android:layout_marginTop="337dp"
             app:srcCompat="@drawable/rounded_white_rectangle" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
@@ -42,7 +107,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="265dp"
+            android:layout_marginTop="340dp"
             android:backgroundTint="@android:color/background_light"
             android:textColor="@color/colorPrimary" />
 
@@ -51,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="310dp"
             android:text="Category name:"
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />

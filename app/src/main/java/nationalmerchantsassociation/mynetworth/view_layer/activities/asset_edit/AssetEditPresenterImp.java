@@ -29,7 +29,7 @@ public class AssetEditPresenterImp implements AssetEditPresenter {
     }
 
     @Override
-    public void onCreate(String assetName) {
+    public void onCreate(String assetName, String date) {
         initData(assetName);
     }
 

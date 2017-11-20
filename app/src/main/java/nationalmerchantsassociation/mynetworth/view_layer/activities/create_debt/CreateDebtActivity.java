@@ -27,6 +27,8 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
     @BindView(R.id.toolbar_create_debt)Toolbar toolbar;
     @BindView(R.id.debt_name_input)EditText nameInput;
     @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
+    @BindView(R.id.month_spinner)MaterialSpinner monthSpinner;
+    @BindView(R.id.year_spinner)MaterialSpinner yearSpinner;
     @Inject CreateDebtPresenter presenter;
 
     @Override
@@ -38,6 +40,7 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
         initToolbar();
         setTitle(getString(R.string.create_debt_title));
         initListeners();
+        presenter.initDateSpinners();
     }
 
     private void initToolbar() {
@@ -57,7 +60,8 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save_asset) {
-            presenter.saveAsset(valueInput.getText().toString().replaceAll("[^0-9.]", ""), nameInput.getText().toString());
+            presenter.saveAsset(valueInput.getText().toString().replaceAll("[^0-9.]", ""),
+                    nameInput.getText().toString());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -82,6 +86,19 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
     public void initSpinner(List<String> categories){
         categorySpinner.setItems(categories);
         categorySpinner.setOnItemSelectedListener((view, position, id, item) -> presenter.saveCategories(categories.get(position)));
+    }
+
+    @Override
+    public void initDateSpinners(List<String> months, List<Integer> years){
+        monthSpinner.setItems(months);
+        presenter.saveMonthSelection(months.get(0));
+        monthSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveMonthSelection(months.get(position)));
+
+        yearSpinner.setItems(years);
+        presenter.saveYearSelection(years.get(0));
+        yearSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveYearSelection(years.get(position)));
     }
 
     private void initListeners() {

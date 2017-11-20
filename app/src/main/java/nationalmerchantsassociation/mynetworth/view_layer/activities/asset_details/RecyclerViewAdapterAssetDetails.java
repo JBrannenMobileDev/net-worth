@@ -1,5 +1,6 @@
 package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import io.realm.RealmResults;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
+import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
+import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 
 import static nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil.getCurrencyFormatter;
 
@@ -20,8 +24,14 @@ import static nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil.ge
  */
 
 public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<RecyclerViewAdapterAssetDetails.ViewHolder> {
-    private List<Asset> mDataset;
-    private BaseCallback<Asset> assetSelectedCallback;
+    private List<ValueItem> mDataset;
+    private BaseCallback<ValueItem> assetSelectedCallback;
+    private String dateToHighlight;
+    private Context context;
+
+    public void setHighllightItemDate(String date) {
+        dateToHighlight = date;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -31,7 +41,7 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         public FrameLayout assetItemLayout;
         public TextView assetDate;
         public TextView assetValue;
-        public ViewHolder(View v, final BaseCallback<Asset> rCallback) {
+        public ViewHolder(View v, final BaseCallback<ValueItem> rCallback) {
             super(v);
             assetItemLayout = v.findViewById(R.id.asset_item_layout);
             assetDate = v.findViewById(R.id.asset_date);
@@ -40,8 +50,10 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         }
     }
 
-    public RecyclerViewAdapterAssetDetails(List<Asset> dataset, BaseCallback<Asset> assetSelected) {
+    public RecyclerViewAdapterAssetDetails(List<ValueItem> dataset, BaseCallback<ValueItem> assetSelected, Context context) {
         mDataset = dataset;
+        dateToHighlight = "";
+        this.context = context;
         this.assetSelectedCallback = assetSelected;
     }
 
@@ -57,8 +69,13 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.assetDate.setText(mDataset.get(position).getCurrentValueItem().getMonth() + " " + mDataset.get(position).getCurrentValueItem().getYear());
-        holder.assetValue.setText("$" + getCurrencyFormatter().format(mDataset.get(position).getCurrentValueItem().getValue()));
+        if(mDataset.get(position).getDate().equals(dateToHighlight)){
+            holder.assetItemLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        }else{
+            holder.assetItemLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        }
+        holder.assetDate.setText(CustomDateFormatter.createDate(mDataset.get(position).getMonth(), mDataset.get(position).getYear()));
+        holder.assetValue.setText("$" + getCurrencyFormatter().format(mDataset.get(position).getValue()));
     }
 
     @Override

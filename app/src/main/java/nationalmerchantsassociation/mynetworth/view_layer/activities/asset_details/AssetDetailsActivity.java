@@ -10,17 +10,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
-import io.realm.RealmResults;
 import nationalmerchantsassociation.mynetworth.R;
-import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
+import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
@@ -29,36 +34,49 @@ import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asse
 
 public class AssetDetailsActivity extends AppCompatActivity implements AssetDetailsView {
 
-    @BindView(R.id.toolbar_assets)Toolbar toolbar;
-    @BindView(R.id.assets_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.assets_line_chart)LineChart lineChart;
-    @Inject
-    AssetDetailsPresenter presenter;
+    @BindView(R.id.toolbar_asset)Toolbar toolbar;
+    @BindView(R.id.asset_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.asset_line_chart)LineChart lineChart;
+    @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
+    @Inject AssetDetailsPresenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterAssetDetails adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private BaseCallback<Asset> assetSelectedCallback;
+    private BaseCallback<ValueItem> assetSelectedCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assets);
+        setContentView(R.layout.activity_asset_details);
         ButterKnife.bind(this);
         setTitle(getString(R.string.assets_title));
         initToolbar();
         initCallbacks();
+        initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
-        presenter.onCreate();
+        presenter.onCreate(getIntent().getStringExtra("assetName"));
+    }
+
+    private void initListeners() {
+        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                presenter.onLineChartValueSelected(e.getX());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                presenter.onLineChartNotSelected();
+            }
+        });
     }
 
     private void initCallbacks() {
-        assetSelectedCallback = new BaseCallback<Asset>() {
+        assetSelectedCallback = new BaseCallback<ValueItem>() {
             @Override
-            public void onResponse(Asset asset) {
-                Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
-                intent.putExtra("assetName", asset.getName());
-                startActivity(intent);
+            public void onResponse(ValueItem item) {
+                presenter.onAssetValueSelected(item.getDate());
             }
 
             @Override
@@ -66,6 +84,14 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
 
             }
         };
+    }
+
+    @Override
+    public void startEditActivity(String assetName, String date){
+        Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
+        intent.putExtra("assetName", assetName);
+        intent.putExtra("date", date);
+        startActivity(intent);
     }
 
     @Override
@@ -78,7 +104,7 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, CreateAssetActivity.class);
+            Intent intent = new Intent(this, AssetEditActivity.class);
             startActivity(intent);
             return true;
         }
@@ -86,10 +112,10 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     }
 
     @Override
-    public void initRecycler(RealmResults<Asset> assets){
+    public void initRecycler(List<ValueItem> assetValues){
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerViewAdapterAssetDetails(assets, assetSelectedCallback);
+        adapter = new RecyclerViewAdapterAssetDetails(assetValues, assetSelectedCallback, getApplicationContext());
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -99,8 +125,8 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     }
 
     @Override
-    public void setTitleWithTotal(double sum) {
-        setTitle(getString(R.string.assets_title) + "  $" + TextFormatterUtil.getCurrencyFormatter().format((int)sum));
+    public void setTitleWithTotal(double sum, String assetName) {
+        setTitle(assetName + "  $" + TextFormatterUtil.getCurrencyFormatter().format((int)sum));
     }
 
     private void initToolbar() {
@@ -109,5 +135,21 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Window w = getWindow(); // in Activity's onCreate() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    @Override
+    public void setLineChartData(List<Integer> assetValues){
+        lineChartUtil.udateDataset(assetValues);
+    }
+
+    @Override
+    public void setLineChartTitle(String title) {
+        lineChartTitle.setText(title);
+    }
+
+    @Override
+    public void highlightSelectedItem(String date) {
+        adapter.setHighllightItemDate(date);
+        adapter.notifyDataSetChanged();
     }
 }

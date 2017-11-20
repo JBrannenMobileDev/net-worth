@@ -105,7 +105,7 @@
                 app:srcCompat="@drawable/rounded_rectangle_white_border" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/linechart_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

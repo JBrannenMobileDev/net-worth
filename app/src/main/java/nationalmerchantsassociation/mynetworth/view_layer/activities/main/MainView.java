@@ -7,9 +7,11 @@ import java.util.List;
  */
 
 public interface MainView {
-    void setData(float assets, float debts);
+    void setData(float assets, float debts, boolean animate);
     void initEmpyState();
     void setStaticNetWorth(String zero_net_worth);
-    void setAnimatedNetWorth(int previousNetWorth, int currentNetWorth);
+    void setAnimatedNetWorth(int previousNetWorth, int currentNetWorth, long time);
     void setLineChartData(List<Integer> netWorths);
+    void setTitle(String date);
+    void setLineChartTitle(String lineChartTitle);
 }

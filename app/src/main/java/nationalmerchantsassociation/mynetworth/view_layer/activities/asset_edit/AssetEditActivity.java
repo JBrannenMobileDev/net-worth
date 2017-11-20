@@ -42,7 +42,7 @@ public class AssetEditActivity extends AppCompatActivity implements DeleteAlertD
         ButterKnife.bind(this);
         initToolbar();
         setTitle(getIntent().getStringExtra("assetName"));
-        presenter.onCreate(getIntent().getStringExtra("assetName"));
+        presenter.onCreate(getIntent().getStringExtra("assetName"), getIntent().getStringExtra("date"));
         initListeners();
     }
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import nationalmerchantsassociation.mynetworth.utils.CustomeDateFormatter;
+import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
 
 /**
@@ -28,8 +28,7 @@ public class Asset extends RealmObject{
         this.category = categroy;
         this.assetValues = new RealmList<>();
         this.assetValues.add(new ValueItem(value, month, year));
-        this.date = CustomeDateFormatter.createDate(month, year);
-
+        this.date = CustomDateFormatter.createDate(month, year);
     }
 
     public void addValueItem(ValueItem item){
