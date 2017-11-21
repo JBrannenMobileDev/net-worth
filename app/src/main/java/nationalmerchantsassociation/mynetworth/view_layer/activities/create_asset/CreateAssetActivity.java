@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
@@ -64,6 +65,12 @@ public class CreateAssetActivity extends AppCompatActivity implements CreateAsse
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.save_button)
+    public void onSaveclicked(){
+        presenter.saveAsset(valueInput.getText().toString().replaceAll("[^0-9.]", ""),
+                nameInput.getText().toString());
     }
 
     @Override

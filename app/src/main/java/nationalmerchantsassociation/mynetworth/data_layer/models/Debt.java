@@ -70,6 +70,25 @@ public class Debt extends RealmObject{
         return nearestToCurrentValue;
     }
 
+    public double getCurrentValue() {
+        int maxYear = debtValues.stream().mapToInt(ValueItem::getYear).max().getAsInt();
+        List<ValueItem> currentYearList = debtValues.stream().filter(value -> value.getYear() == maxYear).collect(Collectors.toList());
+        ValueItem nearestToCurrentValue;
+        Calendar current = Calendar.getInstance();
+        int currentMonth = current.get(Calendar.MONTH);
+        nearestToCurrentValue = currentYearList.get(0);
+        for(ValueItem value : currentYearList){
+            int valueMonth = MonthConversionUtil.monthStringToInt(value.getMonth());
+            if(valueMonth == currentMonth){
+                return value.getValue();
+            }
+            if(valueMonth > MonthConversionUtil.monthStringToInt(nearestToCurrentValue.getMonth())){
+                nearestToCurrentValue = value;
+            }
+        }
+        return nearestToCurrentValue.getValue();
+    }
+
     public ValueItem getValueItemByDate(String date){
         return debtValues.stream().filter(debt -> debt.getDate().equals(date)).findFirst().orElse(null);
     }

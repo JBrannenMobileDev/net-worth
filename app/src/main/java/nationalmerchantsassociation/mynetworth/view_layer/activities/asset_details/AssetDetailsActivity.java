@@ -23,6 +23,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
@@ -56,6 +57,16 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
         presenter.onCreate(getIntent().getStringExtra("assetName"));
+    }
+
+    @OnClick(R.id.asset_details_fab)
+    public void onAddAssetClicked(){
+        launchUpdateAssetValue();
+    }
+
+    private void launchUpdateAssetValue() {
+//        Intent intent = new Intent(getApplicationContext(), AssetUpdateActivity.class);
+//        startActivity(intent);
     }
 
     private void initListeners() {
@@ -104,8 +115,8 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, AssetEditActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, AssetEditActivity.class);
+//            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

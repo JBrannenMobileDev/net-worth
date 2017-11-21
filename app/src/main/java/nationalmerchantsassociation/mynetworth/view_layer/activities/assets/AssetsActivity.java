@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import io.realm.RealmResults;
 import nationalmerchantsassociation.mynetworth.R;
@@ -68,6 +69,11 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         };
     }
 
+    @OnClick(R.id.assets_fab)
+    public void onAddAssetClicked(){
+        launchAddAssetIntent();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.assets_menu, menu);
@@ -78,11 +84,15 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, CreateAssetActivity.class);
-            startActivity(intent);
+            launchAddAssetIntent();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchAddAssetIntent(){
+        Intent intent = new Intent(this, CreateAssetActivity.class);
+        startActivity(intent);
     }
 
     @Override

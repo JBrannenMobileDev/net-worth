@@ -2,51 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/category_tv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:fitsSystemWindows="true"
     android:paddingTop="15dp"
-    tools:context="nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity">
+    tools:context=".view_layer.activities.assets.AssetsActivity">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="303dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="163dp"
-        app:srcCompat="@drawable/rounded_rectangle_white_border" />
-
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/category_spinner"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="165dp"
-        android:backgroundTint="@android:color/background_light"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary" />
-
-    <TextView
-        android:id="@+id/category_saved_tv"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/debt_details_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="180dp"
-        android:text="Category"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="130dp"
-        android:text="Category name:"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:tint="@android:color/background_light"
+        app:backgroundTint="@color/colorAccent"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -55,7 +25,7 @@
         app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_asset_details"
+            android:id="@+id/toolbar_debt_details"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -64,28 +34,98 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_vertical"
-        android:text="Asset value:"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="56dp"
+        app:srcCompat="@drawable/rounded_rectangle_white_border" />
 
-    <EditText
-        android:id="@+id/asset_details_value"
-        android:layout_width="175dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="184dp"
+        android:background="@drawable/_bottom_2_corners">
+
+        <TextView
+            android:id="@+id/six_month_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="6M"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/one_year_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="1Y"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/five_year_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="5Y"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ten_year_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="10Y"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="All"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/linechart_title_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="60dp"
-        android:backgroundTint="@android:color/background_light"
-        android:ems="10"
-        android:inputType="number"
-        android:paddingLeft="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="61dp"
         android:textColor="@android:color/background_light" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/debt_line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginTop="61dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/debt_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="221dp" />
 </FrameLayout>

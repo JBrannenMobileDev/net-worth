@@ -1,80 +1,72 @@
 package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
-import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
+import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
+import nationalmerchantsassociation.mynetworth.utils.LineChartDataMapper;
+import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 
 /**
- * Created by jbrannen on 11/10/17.
+ * Created by jbrannen on 11/13/17.
  */
 
 public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
-
+    private static final String EMPTY_STRING = "";
     private DebtDetailsView view;
     private Realm realm;
-    private DataManager dataManager;
+    private String debtName;
+    private DebtDetailsModel model;
     private Debt debt;
-    private String category;
 
-    public DebtDetailsPresenterImp(DebtDetailsView debtDetailsView, Realm mainUiRealm, DataManager dataManager) {
-        this.view = debtDetailsView;
+    public DebtDetailsPresenterImp(DebtDetailsView debtView, Realm mainUiRealm) {
+        this.view = debtView;
         this.realm = mainUiRealm;
-        this.dataManager = dataManager;
     }
 
     @Override
     public void onCreate(String debtName) {
-        initData(debtName);
+        this.debtName = debtName;
+        initData();
     }
 
     @Override
-    public void initSpinner(String[] categoryNames) {
-        List<String> categories = new ArrayList<>(Arrays.asList(categoryNames));
-        Collections.sort(categories);
-        view.initSpinner(categories);
+    public void onDebtValueSelected(String date) {
+        view.startEditActivity(debtName, date);
     }
 
     @Override
-    public void onDeleteDebt(String debtName) {
-        dataManager.deleteDebt(debtName);
+    public void onLineChartValueSelected(float x) {
+        view.highlightSelectedItem(model.getValueItemList().get((int)x).getDate());
+
     }
 
     @Override
-    public void onDelete() {
-        view.launchAreYouSureDialog(debt.getName());
+    public void onLineChartNotSelected() {
+        view.highlightSelectedItem(EMPTY_STRING);
     }
 
-    private void initData(String debtName) {
+    private void initData() {
         debt = realm.where(Debt.class).equalTo("name", debtName).findFirst();
-        category = debt.getCategory();
-        DecimalFormat formatter = new DecimalFormat("###,###,###");
-        view.setValueEt("$" + formatter.format(debt.getCurrentValueItem().getValue()));
-        view.setSavedCategoryName(debt.getCategory());
+        debt.addChangeListener(debtsRealtime -> view.updateRecycler());
+        view.initRecycler(debt.getDebtValues());
+        view.setTitleWithTotal(debt.getCurrentValue(), debtName);
+        view.setLineChartData(buildDebtDetailsModel(debt.getDebtValues(), LineChartDataMapper.MONTHS_6).getDebtValues());
+        view.setLineChartTitle(buildLineChartTitle("6M"));
     }
 
-    @Override
-    public void onDestroy() {
-        realm.close();
+    private DebtDetailsModel buildDebtDetailsModel(List<ValueItem> debtValues, int range){
+        this.model = LineChartDataMapper.mapDebtDetails(debtValues, range);
+        return this.model;
     }
 
-    @Override
-    public void SpinnerItemSelected(String categoryName) {
-        category = categoryName;
-    }
-
-    @Override
-    public void onSave(String value) {
-        Debt debtToSave = new Debt();
-        debtToSave.setName(debt.getName());
-        debtToSave.getCurrentValueItem().setValue(Double.valueOf(value));
-        debtToSave.setCategory(category);
-        dataManager.insertOrUpdateDebt(debtToSave);
-        view.onSave();
+    private String buildLineChartTitle(String range){
+        int netChange = (model.getDebtValues().get(5))-(model.getDebtValues().get(0));
+        try {
+            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + netChange / (model.getDebtValues().get(5)) * 100 + "%) Past " + range;
+        }catch(ArithmeticException div_zero){
+            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
+        }
     }
 }

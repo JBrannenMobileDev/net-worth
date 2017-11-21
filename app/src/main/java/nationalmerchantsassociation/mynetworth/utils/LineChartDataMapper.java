@@ -10,6 +10,7 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsModel;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsModel;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.MainActivityModel;
 
 /**
@@ -88,6 +89,48 @@ public class LineChartDataMapper {
         result.setDates(dates);
     }
 
+    private static void generateDebtDetailsData(DebtDetailsModel result, List<ValueItem> debtValues, int numOfMonths, int currentMonth, int currentYear) {
+        List<Integer> assetValue = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        List<ValueItem> valueItems = new ArrayList<>();
+
+        for(int i = 0; i < numOfMonths; i++){
+            ValueItem found = null;
+            for (ValueItem item : debtValues) {
+                if (item.getDate().equals(CustomDateFormatter.createDate(MonthConversionUtil.monthIntTOString(currentMonth), currentYear))) {
+                    valueItems.add(item);
+                    found = item;
+                    break;
+                }else{
+                    valueItems.add(new ValueItem());
+                }
+            }
+            if(found == null){
+                assetValue.add(0);
+            }else {
+                assetValue.add((int) found.getValue());
+            }
+
+            dates.add(CustomDateFormatter.
+                    createDate(MonthConversionUtil.
+                            monthIntTOString(currentMonth), currentYear));
+
+            //reduce month by one
+            if(currentMonth > 1){
+                currentMonth--;
+            }else{
+                currentMonth = 12;
+                currentYear--;
+            }
+        }
+        Collections.reverse(assetValue);
+        Collections.reverse(dates);
+        Collections.reverse(valueItems);
+        result.setValueItemList(valueItems);
+        result.setDebtValues(assetValue);
+        result.setDates(dates);
+    }
+
     private static List<Integer> generateNetWorthList(RealmResults<Asset> assets, RealmResults<Debt> debts,
                                                           int numOfMonths, int currentMonth, int currentYear, MainActivityModel result) {
         List<Integer> resultNetWorths = new ArrayList<>();
@@ -150,5 +193,15 @@ public class LineChartDataMapper {
         double assetValueSum = assets == null ? 0:assets.stream().mapToDouble(asset -> asset.getValue()).sum();
         double debtValueSum = debts == null ? 0:debts.stream().mapToDouble(debt -> debt.getValue()).sum();
         return (int)(assetValueSum - debtValueSum);
+    }
+
+    public static DebtDetailsModel mapDebtDetails(List<ValueItem> debtValues, int range) {
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH);
+
+        DebtDetailsModel result = new DebtDetailsModel();
+        generateDebtDetailsData(result, debtValues, range, currentMonth, currentYear);
+        return result;
     }
 }

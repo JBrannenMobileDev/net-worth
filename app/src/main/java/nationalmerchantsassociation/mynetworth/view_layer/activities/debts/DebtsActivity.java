@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import io.realm.RealmResults;
 import nationalmerchantsassociation.mynetworth.R;
@@ -67,6 +68,11 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
         };
     }
 
+    @OnClick(R.id.debts_fab)
+    public void onAddAssetClicked(){
+        launchAddDebtIntent();
+    }
+
     @Override
     public void updateRecycler() {
         adapter.notifyDataSetChanged();//TODO implement realm fine grained updates
@@ -96,12 +102,16 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, CreateDebtActivity.class);
-            startActivity(intent);
+            launchAddDebtIntent();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchAddDebtIntent(){
+        Intent intent = new Intent(this, CreateDebtActivity.class);
+        startActivity(intent);
     }
 
     @Override

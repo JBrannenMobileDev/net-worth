@@ -3,7 +3,6 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_detai
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
-import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -13,12 +12,12 @@ import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 public class DebtDetailsActivityModule {
 
     @Provides
-    DebtDetailsView provideDebtDetailsView(DebtDetailsActivity debtDetailsActivity){
-        return debtDetailsActivity;
+    DebtDetailsView provideAssetsView(DebtDetailsActivity debtActivity){
+        return debtActivity;
     }
 
     @Provides
-    DebtDetailsPresenter provideDebtDetailsPresenter(DebtDetailsView debtDetailsView, Realm mainUiRealm, DataManager dataManager){
-        return new DebtDetailsPresenterImp(debtDetailsView, mainUiRealm, dataManager);
+    DebtDetailsPresenter provideDebtPresenter(DebtDetailsView debtView, Realm mainUiRealm){
+        return new DebtDetailsPresenterImp(debtView, mainUiRealm);
     }
 }
