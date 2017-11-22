@@ -31,6 +31,7 @@ import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
 
 public class AssetDetailsActivity extends AppCompatActivity implements AssetDetailsView {
@@ -59,14 +60,28 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         presenter.onCreate(getIntent().getStringExtra("assetName"));
     }
 
-    @OnClick(R.id.asset_details_fab)
-    public void onAddAssetClicked(){
-        launchUpdateAssetValue();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0)
+            presenter.onActivityResult(data.getStringExtra("assetName"));
     }
 
-    private void launchUpdateAssetValue() {
-//        Intent intent = new Intent(getApplicationContext(), AssetUpdateActivity.class);
-//        startActivity(intent);
+    @OnClick(R.id.asset_details_fab)
+    public void onAddAssetClicked(){
+        presenter.onUpdateClicked();
+    }
+
+    @OnClick(R.id.update_asset_tv)
+    public void onUpdateClicked(){
+        presenter.onUpdateClicked();
+    }
+
+    @Override
+    public void launchUpdateActivity(String assetName){
+        Intent intent = new Intent(this, AssetUpdateActivity.class);
+        intent.putExtra("assetName", assetName);
+        startActivityForResult(intent, 0);
     }
 
     private void initListeners() {

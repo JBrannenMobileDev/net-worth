@@ -10,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,6 +39,7 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
     @BindView(R.id.toolbar_debts)Toolbar toolbar;
     @BindView(R.id.debts_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.debts_line_chart)LineChart lineChart;
+    @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
     @Inject DebtsPresenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterDebts adapter;
@@ -48,8 +55,15 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
         setTitle(getString(R.string.debts_title));
         initToolbar();
         initCallbacks();
+        initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
         presenter.onCreate();
+    }
+
+    @Override
+    public void onDestroy(){
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     private void initCallbacks(){
@@ -66,6 +80,20 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
 
             }
         };
+    }
+
+    private void initListeners() {
+        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                presenter.onLineChartValueSelected(e.getX());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                presenter.onLineChartNotSelected();
+            }
+        });
     }
 
     @OnClick(R.id.debts_fab)
@@ -117,6 +145,16 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
     @Override
     public void setTitleWithTotal(double sum) {
         setTitle(getString(R.string.debts_title) + "  $" + TextFormatterUtil.getCurrencyFormatter().format((int)sum));
+    }
+
+    @Override
+    public void setLineChartData(List<Integer> debts) {
+        lineChartUtil.udateDataset(debts);
+    }
+
+    @Override
+    public void setLineChartTitle(String title) {
+        lineChartTitle.setText(title);
     }
 
     private void initToolbar() {

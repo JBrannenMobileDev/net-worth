@@ -9,4 +9,6 @@ public interface AssetDetailsPresenter {
     void onAssetValueSelected(String date);
     void onLineChartValueSelected(float x);
     void onLineChartNotSelected();
+    void onUpdateClicked();
+    void onActivityResult(String assetName);
 }

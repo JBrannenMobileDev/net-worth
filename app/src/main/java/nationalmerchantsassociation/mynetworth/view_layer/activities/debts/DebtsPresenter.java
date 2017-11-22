@@ -6,4 +6,7 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.debts;
 
 public interface DebtsPresenter {
     void onCreate();
+    void onLineChartValueSelected(float x);
+    void onLineChartNotSelected();
+    void onDestroy();
 }

@@ -122,11 +122,27 @@
         android:id="@+id/asset_line_chart"
         android:layout_width="match_parent"
         android:layout_height="125dp"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="59dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/asset_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="221dp" />
+        android:layout_marginTop="261dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp" />
+
+    <TextView
+        android:id="@+id/update_asset_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="221dp"
+        android:background="@drawable/rounded_rectangle_white_border"
+        android:gravity="center_vertical"
+        android:text="Add updated value"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
 </FrameLayout>

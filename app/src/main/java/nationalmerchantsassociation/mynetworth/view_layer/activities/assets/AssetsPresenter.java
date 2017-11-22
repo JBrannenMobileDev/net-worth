@@ -6,4 +6,7 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.assets;
 
 public interface AssetsPresenter {
     void onCreate();
+    void onLineChartValueSelected(float x);
+    void onLineChartNotSelected();
+    void onDestroy();
 }

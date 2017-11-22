@@ -10,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,6 +40,7 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
     @BindView(R.id.toolbar_assets)Toolbar toolbar;
     @BindView(R.id.assets_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.assets_line_chart)LineChart lineChart;
+    @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
     @Inject AssetsPresenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterAssets adapter;
@@ -49,9 +56,16 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         setTitle(getString(R.string.assets_title));
         initToolbar();
         initCallbacks();
+        initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
         presenter.onCreate();
     }
+    @Override
+    public void onDestroy(){
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
 
     private void initCallbacks() {
         assetSelectedCallback = new BaseCallback<Asset>() {
@@ -67,6 +81,20 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
 
             }
         };
+    }
+
+    private void initListeners() {
+        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                presenter.onLineChartValueSelected(e.getX());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                presenter.onLineChartNotSelected();
+            }
+        });
     }
 
     @OnClick(R.id.assets_fab)
@@ -111,6 +139,16 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
     @Override
     public void setTitleWithTotal(double sum) {
         setTitle(getString(R.string.assets_title) + "  $" + TextFormatterUtil.getCurrencyFormatter().format((int)sum));
+    }
+
+    @Override
+    public void setLineChartTitle(String title) {
+        lineChartTitle.setText(title);
+    }
+
+    @Override
+    public void setLineChartData(List<Integer> assets) {
+        lineChartUtil.udateDataset(assets);
     }
 
     private void initToolbar() {

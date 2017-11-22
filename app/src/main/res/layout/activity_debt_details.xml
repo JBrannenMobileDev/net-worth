@@ -121,11 +121,13 @@
         android:id="@+id/debt_line_chart"
         android:layout_width="match_parent"
         android:layout_height="125dp"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="59dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/debt_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="221dp" />
+        android:layout_marginTop="221dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"/>
 </FrameLayout>

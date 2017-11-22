@@ -4,6 +4,8 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivityModule;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
@@ -44,4 +46,7 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = CreateDebtActivityModule.class)
     abstract CreateDebtActivity bindCreateDebtActivity();
+
+    @ContributesAndroidInjector(modules = AssetUpdateActivityModule.class)
+    abstract AssetUpdateActivity bindAssetUpdateActivity();
 }

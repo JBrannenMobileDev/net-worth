@@ -10,7 +10,9 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsModel;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsModel;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsModel;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsModel;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.MainActivityModel;
 
 /**
@@ -34,6 +36,100 @@ public class LineChartDataMapper {
         MainActivityModel result = new MainActivityModel();
         result.setNetWorths(generateNetWorthList(assets, debts, numOfMonths, currentMonth, currentYear, result));
 
+        return result;
+    }
+
+    public static AssetsModel mapAssetsModel(RealmResults<Asset> assets, int numOfMonths){
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH);
+
+        AssetsModel result = new AssetsModel();
+        result = generateAssetsData(result, numOfMonths, currentMonth, currentYear, assets);
+        return result;
+    }
+
+    private static AssetsModel generateAssetsData(AssetsModel result, int numOfMonths, int currentMonth, int currentYear, RealmResults<Asset> assets) {
+        List<Integer> resultAssets = new ArrayList<>();
+        List<String> resultDates = new ArrayList<>();
+        List<ValueItem> assetsFor1Month;
+        for(int i = 0; i < numOfMonths; i++){
+            List<ValueItem> assetsList = new ArrayList<>();
+            for (Asset asset : assets) {
+                if (asset.getValueItemByDate(CustomDateFormatter.
+                        createDate(MonthConversionUtil.
+                                monthIntTOString(currentMonth), currentYear)) != null) {
+                    assetsList.add(asset.getValueItemByDate(CustomDateFormatter.
+                            createDate(MonthConversionUtil.
+                                    monthIntTOString(currentMonth), currentYear)));
+                }
+            }
+            assetsFor1Month = assetsList;
+
+            resultDates.add(CustomDateFormatter.
+                    createDate(MonthConversionUtil.
+                            monthIntTOString(currentMonth), currentYear));
+            resultAssets.add(assetsFor1Month.stream().mapToInt(valueItem -> (int)valueItem.getValue()).sum());
+
+            //reduce month by one
+            if(currentMonth > 1){
+                currentMonth--;
+            }else{
+                currentMonth = 12;
+                currentYear--;
+            }
+        }
+        Collections.reverse(resultDates);
+        Collections.reverse(resultAssets);
+        result.setAssets(resultAssets);
+        result.setDates(resultDates);
+        return result;
+    }
+
+    public static DebtsModel mapDebtsModel(RealmResults<Debt> debts, int numOfMonths){
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH);
+
+        DebtsModel result = new DebtsModel();
+        result = generateDebtsData(result, numOfMonths, currentMonth, currentYear, debts);
+        return result;
+    }
+
+    private static DebtsModel generateDebtsData(DebtsModel result, int numOfMonths, int currentMonth, int currentYear, RealmResults<Debt> debts) {
+        List<Integer> resultDebts = new ArrayList<>();
+        List<String> resultDates = new ArrayList<>();
+        List<ValueItem> debtsFor1Month;
+        for(int i = 0; i < numOfMonths; i++){
+            List<ValueItem> debtsList = new ArrayList<>();
+            for (Debt debt : debts) {
+                if (debt.getValueItemByDate(CustomDateFormatter.
+                        createDate(MonthConversionUtil.
+                                monthIntTOString(currentMonth), currentYear)) != null) {
+                    debtsList.add(debt.getValueItemByDate(CustomDateFormatter.
+                            createDate(MonthConversionUtil.
+                                    monthIntTOString(currentMonth), currentYear)));
+                }
+            }
+            debtsFor1Month = debtsList;
+
+            resultDates.add(CustomDateFormatter.
+                    createDate(MonthConversionUtil.
+                            monthIntTOString(currentMonth), currentYear));
+            resultDebts.add(debtsFor1Month.stream().mapToInt(valueItem -> (int)valueItem.getValue()).sum());
+
+            //reduce month by one
+            if(currentMonth > 1){
+                currentMonth--;
+            }else{
+                currentMonth = 12;
+                currentYear--;
+            }
+        }
+        Collections.reverse(resultDates);
+        Collections.reverse(resultDebts);
+        result.setDebts(resultDebts);
+        result.setDates(resultDates);
         return result;
     }
 
@@ -87,6 +183,16 @@ public class LineChartDataMapper {
         result.setValueItemList(valueItems);
         result.setAssetValues(assetValue);
         result.setDates(dates);
+    }
+
+    public static DebtDetailsModel mapDebtDetails(List<ValueItem> debtValues, int range) {
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH);
+
+        DebtDetailsModel result = new DebtDetailsModel();
+        generateDebtDetailsData(result, debtValues, range, currentMonth, currentYear);
+        return result;
     }
 
     private static void generateDebtDetailsData(DebtDetailsModel result, List<ValueItem> debtValues, int numOfMonths, int currentMonth, int currentYear) {
@@ -193,15 +299,5 @@ public class LineChartDataMapper {
         double assetValueSum = assets == null ? 0:assets.stream().mapToDouble(asset -> asset.getValue()).sum();
         double debtValueSum = debts == null ? 0:debts.stream().mapToDouble(debt -> debt.getValue()).sum();
         return (int)(assetValueSum - debtValueSum);
-    }
-
-    public static DebtDetailsModel mapDebtDetails(List<ValueItem> debtValues, int range) {
-        Calendar currentDate = Calendar.getInstance();
-        int currentYear = currentDate.get(Calendar.YEAR);
-        int currentMonth = currentDate.get(Calendar.MONTH);
-
-        DebtDetailsModel result = new DebtDetailsModel();
-        generateDebtDetailsData(result, debtValues, range, currentMonth, currentYear);
-        return result;
     }
 }

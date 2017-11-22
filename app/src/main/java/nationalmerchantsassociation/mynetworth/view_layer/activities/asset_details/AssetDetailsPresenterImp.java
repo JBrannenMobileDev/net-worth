@@ -6,6 +6,7 @@ import io.realm.Realm;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.LineChartDataMapper;
+import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 
 /**
@@ -47,13 +48,27 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
         view.highlightSelectedItem(EMPTY_STRING);
     }
 
+    @Override
+    public void onUpdateClicked() {
+        view.launchUpdateActivity(assetName);
+    }
+
+    @Override
+    public void onActivityResult(String assetName) {
+        this.assetName = assetName;
+        initData();
+    }
+
     private void initData() {
         asset = realm.where(Asset.class).equalTo("name", assetName).findFirst();
-        asset.addChangeListener(assetsRealtime -> view.updateRecycler());
-        view.initRecycler(asset.getAssetValues());
-        view.setTitleWithTotal(asset.getCurrentValue(), assetName);
-        view.setLineChartData(buildAssetDetailsModel(asset.getAssetValues(), LineChartDataMapper.MONTHS_6).getAssetValues());
-        view.setLineChartTitle(buildLineChartTitle("6M"));
+        if(asset != null) {
+            asset.addChangeListener(assetsRealtime -> {
+                view.updateRecycler();
+                setDefaultState();
+            });
+            view.initRecycler(asset.getAssetValues());
+            setDefaultState();
+        }
     }
 
     private AssetDetailsModel buildAssetDetailsModel(List<ValueItem> assetValues, int range){
@@ -61,12 +76,10 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
         return this.model;
     }
 
-    private String buildLineChartTitle(String range){
-        int netChange = (model.getAssetValues().get(5))-(model.getAssetValues().get(0));
-        try {
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + netChange / (model.getAssetValues().get(5)) * 100 + "%) Past " + range;
-        }catch(ArithmeticException div_zero){
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
-        }
+    private void setDefaultState(){
+        view.setTitleWithTotal(asset.getCurrentValue(), assetName);
+        view.setLineChartData(buildAssetDetailsModel(asset.getAssetValues(), LineChartDataMapper.MONTHS_6).getAssetValues());
+        view.setLineChartTitle(TextFormatterUtil.buildLineChartTitle("6M",
+                (model.getAssetValues().get(5))-(model.getAssetValues().get(0)), model.getAssetValues().get(5)));
     }
 }
