@@ -14,13 +14,13 @@ import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 public class AssetEditActivityModule {
 
     @Provides
-    AssetEditView provideAssetDetailsView(AssetEditActivity assetDetailsActivity){
-        return assetDetailsActivity;
+    AssetEditView provideAssetUpdateView(AssetEditActivity assetUpdateActivity){
+        return assetUpdateActivity;
     }
 
 
     @Provides
-    AssetEditPresenter provideAssetDetailsPresenter(AssetEditView assetDetailsView, Realm mainUiRealm, DataManager dataManager){
-        return new AssetEditPresenterImp(assetDetailsView, mainUiRealm, dataManager);
+    AssetEditPresenter provideAssetUpdatePresenter(AssetEditView assetUpdateView, DataManager dataManager){
+        return new AssetEditPresenterImp(assetUpdateView, dataManager);
     }
 }

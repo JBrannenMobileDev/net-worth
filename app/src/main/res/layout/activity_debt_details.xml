@@ -127,7 +127,21 @@
         android:id="@+id/debt_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="221dp"
+        android:layout_marginTop="270dp"
         android:clipToPadding="false"
-        android:paddingBottom="100dp"/>
+        android:paddingBottom="100dp" />
+
+    <TextView
+        android:id="@+id/update_debt_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="219dp"
+        android:background="@drawable/rounded_rectangle_white_border"
+        android:gravity="center_vertical"
+        android:text="Add updated value"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
 </FrameLayout>

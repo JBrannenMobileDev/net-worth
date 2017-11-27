@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,56 +25,44 @@ import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
 
-public class AssetEditActivity extends AppCompatActivity implements AssetEditView {
+public class DebtUpdateActivity extends AppCompatActivity implements DebtUpdateView {
 
 
-    @BindView(R.id.toolbar_edit_asset)Toolbar toolbar;
-    @BindView(R.id.asset_name_input)EditText nameInput;
-    @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
-    @Inject
-    AssetEditPresenter presenter;
+    @BindView(R.id.toolbar_update_debt)Toolbar toolbar;
+    @BindView(R.id.debt_value_input)EditText valueEt;
+    @BindView(R.id.month_spinner)MaterialSpinner monthSpinner;
+    @BindView(R.id.year_spinner)MaterialSpinner yearSpinner;
+    @Inject DebtUpdatePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_asset);
+        setContentView(R.layout.activity_update_debt_value);
         ButterKnife.bind(this);
         initToolbar();
-        setTitle(getIntent().getStringExtra("assetName"));
-        presenter.onCreate(getIntent().getStringExtra("assetName"), getIntent().getStringExtra("assetCategory"));
+        setTitle(getIntent().getStringExtra("debtName"));
+        presenter.onCreate(getIntent().getStringExtra("debtName"));
         initListeners();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @OnClick(R.id.save_button)
-    public void onSaveclicked(){
-        presenter.saveAsset(nameInput.getText().toString());
+    @OnClick(R.id.update_button)
+    public void onSaveClicked(){
+        presenter.onUpdate(Double.valueOf(valueEt.getText().toString().replaceAll("[^0-9.]", "")));
     }
 
     @Override
-    public void onPostExecute(String assetName) {
-        finishActivityForResult(assetName);
+    public void onPostExecute(String debtName) {
+        finishActivityForResult(debtName);
     }
 
     @Override
-    public void finishActivityForResult(String assetName) {
+    public void finishActivityForResult(String debtName) {
         Intent intent = getIntent();
-        intent.putExtra("assetName", assetName);
+        intent.putExtra("debtName", debtName);
         setResult(0, intent);
         finish();
-    }
-
-    @Override
-    public void initAssetName(String assetName) {
-        nameInput.setText(assetName);
-    }
-
-    @Override
-    public void initAssetCategory(String assetCategory) {
-        List<String> initialCategory = new ArrayList<>();
-        initialCategory.add(assetCategory);
-        initSpinners(initialCategory);
     }
 
     @Override
@@ -83,15 +70,22 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
         presenter.onBackPressed();
     }
 
+
     private void initListeners() {
-        categorySpinner.setOnClickListener(view -> presenter.initSpinner(getResources().getStringArray(R.array.asset_category_names)));
+        valueEt.addTextChangedListener(new NumberTextWatcher(valueEt, "#,###"));
     }
 
     @Override
-    public void initSpinners(List<String> categories){
-        categorySpinner.setItems(categories);
-        categorySpinner.setOnItemSelectedListener((view, position, id, item) ->
-                presenter.saveCategorySelection(categories.get(position)));
+    public void initDateSpinners(List<String> months, List<Integer> years){
+        monthSpinner.setItems(months);
+        presenter.saveMonthSelection(months.get(0));
+        monthSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveMonthSelection(months.get(position)));
+
+        yearSpinner.setItems(years);
+        presenter.saveYearSelection(years.get(0));
+        yearSpinner.setOnItemSelectedListener((view, position, id, item) ->
+                presenter.saveYearSelection(years.get(position)));
     }
 
     private void initToolbar() {
@@ -105,7 +99,7 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.asset_edit, menu);
+        getMenuInflater().inflate(R.menu.debt_details, menu);
         return true;
     }
 
@@ -117,12 +111,8 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_save_asset) {
-            presenter.saveAsset(nameInput.getText().toString());
-            return true;
-        }
-        if (id == R.id.action_delete_asset) {
-            presenter.deleteAsset();
+        if (id == R.id.action_save_debt) {
+            presenter.onUpdate(Double.valueOf(valueEt.getText().toString().replaceAll("[^0-9.]", "")));
             return true;
         }
         if(id == android.R.id.home) {
@@ -133,8 +123,8 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
     }
 
     @Override
-    public void onUpdate(String assetName) {
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        onPostExecute(assetName);
+    public void onUpdate(String debtName) {
+        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+        onPostExecute(debtName);
     }
 }

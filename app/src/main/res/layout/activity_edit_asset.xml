@@ -29,12 +29,25 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp">
 
+        <TextView
+            android:id="@+id/save_button"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="230dp"
+            android:background="@drawable/rounded_rectangle_white_border"
+            android:gravity="center_vertical"
+            android:text="Save"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="302dp"
             android:layout_height="53dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="237dp"
+            android:layout_marginTop="137dp"
             app:srcCompat="@drawable/rounded_white_rectangle" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
@@ -42,7 +55,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="240dp"
+            android:layout_marginTop="140dp"
             android:backgroundTint="@android:color/background_light"
             android:textColor="@color/colorPrimary" />
 
@@ -51,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="110dp"
             android:text="Category name:"
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
@@ -67,17 +80,6 @@
             android:inputType="textCapWords"
             android:textColor="@android:color/background_light" />
 
-        <EditText
-            android:id="@+id/asset_value_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="145dp"
-            android:backgroundTint="@android:color/background_light"
-            android:ems="10"
-            android:inputType="number"
-            android:textColor="@android:color/background_light" />
-
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
@@ -88,15 +90,6 @@
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="120dp"
-            android:text="Asset value:"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
     </FrameLayout>
 
 </FrameLayout>

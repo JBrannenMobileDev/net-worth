@@ -32,7 +32,6 @@ import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.create_asset.CreateAssetActivity;
 
 public class AssetDetailsActivity extends AppCompatActivity implements AssetDetailsView {
 
@@ -56,8 +55,13 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         initToolbar();
         initCallbacks();
         initListeners();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
-        presenter.onCreate(getIntent().getStringExtra("assetName"));
+        presenter.onResume(getIntent().getStringExtra("assetName"));
     }
 
     @Override
@@ -67,20 +71,23 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
             presenter.onActivityResult(data.getStringExtra("assetName"));
     }
 
-    @OnClick(R.id.asset_details_fab)
-    public void onAddAssetClicked(){
-        presenter.onUpdateClicked();
-    }
-
     @OnClick(R.id.update_asset_tv)
     public void onUpdateClicked(){
         presenter.onUpdateClicked();
     }
 
     @Override
-    public void launchUpdateActivity(String assetName){
+    public void startUpdateActivity(String assetName){
         Intent intent = new Intent(this, AssetUpdateActivity.class);
         intent.putExtra("assetName", assetName);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void startEditActivity(String assetName, String categoryName){
+        Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
+        intent.putExtra("assetName", assetName);
+        intent.putExtra("assetCategory", categoryName);
         startActivityForResult(intent, 0);
     }
 
@@ -113,25 +120,16 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     }
 
     @Override
-    public void startEditActivity(String assetName, String date){
-        Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
-        intent.putExtra("assetName", assetName);
-        intent.putExtra("date", date);
-        startActivity(intent);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.assets_menu, menu);
+        getMenuInflater().inflate(R.menu.asset_details, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_add) {
-//            Intent intent = new Intent(this, AssetEditActivity.class);
-//            startActivity(intent);
+        if (id == R.id.action_edit_asset) {
+            presenter.onEditSelected();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -159,13 +157,13 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Window w = getWindow(); // in Activity's onCreate() for instance
+        Window w = getWindow(); // in Activity's onResume() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
     public void setLineChartData(List<Integer> assetValues){
-        lineChartUtil.udateDataset(assetValues);
+        lineChartUtil.updateDataset(assetValues);
     }
 
     @Override

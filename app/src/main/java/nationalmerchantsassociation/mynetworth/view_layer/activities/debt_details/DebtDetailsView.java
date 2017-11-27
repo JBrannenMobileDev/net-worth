@@ -16,4 +16,5 @@ public interface DebtDetailsView {
     void setLineChartData(List<Integer> debtValues);
     void setLineChartTitle(String title);
     void highlightSelectedItem(String date);
+    void launchUpdateActivity(String debtName);
 }

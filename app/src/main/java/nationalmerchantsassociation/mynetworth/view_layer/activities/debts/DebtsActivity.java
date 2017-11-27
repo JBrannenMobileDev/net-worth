@@ -149,7 +149,7 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
 
     @Override
     public void setLineChartData(List<Integer> debts) {
-        lineChartUtil.udateDataset(debts);
+        lineChartUtil.updateDataset(debts);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Window w = getWindow(); // in Activity's onCreate() for instance
+        Window w = getWindow(); // in Activity's onResume() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 }

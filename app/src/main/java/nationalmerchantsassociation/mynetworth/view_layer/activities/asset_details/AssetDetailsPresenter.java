@@ -5,10 +5,11 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_deta
  */
 
 public interface AssetDetailsPresenter {
-    void onCreate(String assetName);
+    void onResume(String assetName);
     void onAssetValueSelected(String date);
     void onLineChartValueSelected(float x);
     void onLineChartNotSelected();
     void onUpdateClicked();
     void onActivityResult(String assetName);
+    void onEditSelected();
 }

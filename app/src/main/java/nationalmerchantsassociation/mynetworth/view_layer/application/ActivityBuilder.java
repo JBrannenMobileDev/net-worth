@@ -4,6 +4,8 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_details.AssetDetailsActivityModule;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
@@ -14,6 +16,8 @@ import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt.CreateDebtActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsActivityModule;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.MainActivity;
@@ -49,4 +53,10 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = AssetUpdateActivityModule.class)
     abstract AssetUpdateActivity bindAssetUpdateActivity();
+
+    @ContributesAndroidInjector(modules = DebtUpdateActivityModule.class)
+    abstract DebtUpdateActivity bindDebtUpdateActivity();
+
+    @ContributesAndroidInjector(modules = AssetEditActivityModule.class)
+    abstract AssetEditActivity bindAssetEditActivity();
 }

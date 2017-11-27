@@ -45,12 +45,8 @@ public class MainPresenterImp implements MainPresenter {
     }
 
     private String buildLineChartTitle(String range){
-        int netChange = (model.getAssets().get(5)-model.getDebts().get(5))-(model.getAssets().get(0)-model.getDebts().get(0));
-        try{
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + (netChange/(model.getAssets().get(5)-model.getDebts().get(5)))*100 + "%) Past " + range;
-        }catch(ArithmeticException div_zero){
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
-        }
+        double netChange = (model.getAssets().get(5)-model.getDebts().get(5))-(model.getAssets().get(0)-model.getDebts().get(0));
+        return TextFormatterUtil.buildLineChartTitle(range, (int)netChange, (model.getAssets().get(5)-model.getDebts().get(5)));
     }
 
     @Override

@@ -41,6 +41,22 @@ public class DbManager {
         realmManager.insertOrUpdateDebt(debt);
     }
 
+    public void updateAsset(ValueItem newValue, String assetName) {
+        realmManager.updateAsset(newValue, assetName);
+    }
+
+    public void updateAsset(String assetName, String assetCategory, String previousName) {
+        realmManager.updateAsset(assetName, assetCategory, previousName);
+    }
+
+    public void updateDebt(ValueItem newValue, String debtName) {
+        realmManager.updateDebt(newValue, debtName);
+    }
+
+    public void updateDebt(String debtName, String categoryName, String previousName) {
+        realmManager.updateDebt(debtName, categoryName, previousName);
+    }
+
     public void insertOrUpdateAsset(Asset asset){
         realmManager.insertOrUpdateAsset(asset);
     }

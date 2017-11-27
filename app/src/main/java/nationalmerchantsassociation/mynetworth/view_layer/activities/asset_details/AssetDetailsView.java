@@ -16,5 +16,5 @@ public interface AssetDetailsView {
     void setLineChartData(List<Integer> assetValues);
     void setLineChartTitle(String title);
     void highlightSelectedItem(String date);
-    void launchUpdateActivity(String assetName);
+    void startUpdateActivity(String assetName);
 }

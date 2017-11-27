@@ -6,8 +6,8 @@ import io.realm.Realm;
 import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.LineChartDataMapper;
-import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
+import nationalmerchantsassociation.mynetworth.utils.ValueItemUtil;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -18,6 +18,7 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
     private AssetDetailsView view;
     private Realm realm;
     private String assetName;
+    private String newAssetName;
     private AssetDetailsModel model;
     private Asset asset;
 
@@ -27,8 +28,10 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
     }
 
     @Override
-    public void onCreate(String assetName) {
-        this.assetName = assetName;
+    public void onResume(String assetName) {
+        if(newAssetName == null) {
+            this.assetName = assetName;
+        }
         initData();
     }
 
@@ -39,8 +42,7 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
 
     @Override
     public void onLineChartValueSelected(float x) {
-        view.highlightSelectedItem(model.getValueItemList().get((int)x).getDate());
-
+        view.highlightSelectedItem(model.getDates().get((int)x));
     }
 
     @Override
@@ -50,13 +52,19 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
 
     @Override
     public void onUpdateClicked() {
-        view.launchUpdateActivity(assetName);
+        view.startUpdateActivity(assetName);
     }
 
     @Override
     public void onActivityResult(String assetName) {
         this.assetName = assetName;
+        this.newAssetName = assetName;
         initData();
+    }
+
+    @Override
+    public void onEditSelected() {
+        view.startEditActivity(assetName, asset.getCategory());
     }
 
     private void initData() {
@@ -64,9 +72,11 @@ public class AssetDetailsPresenterImp implements AssetDetailsPresenter {
         if(asset != null) {
             asset.addChangeListener(assetsRealtime -> {
                 view.updateRecycler();
-                setDefaultState();
+                if(asset.isValid()) {
+                    setDefaultState();
+                }
             });
-            view.initRecycler(asset.getAssetValues());
+            view.initRecycler(ValueItemUtil.sortByDate(asset.getAssetValues()));
             setDefaultState();
         }
     }

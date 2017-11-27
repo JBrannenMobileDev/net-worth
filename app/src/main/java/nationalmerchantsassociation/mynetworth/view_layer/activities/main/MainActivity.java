@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,7 +27,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.text.DecimalFormat;
@@ -45,11 +43,9 @@ import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
-import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
 import nationalmerchantsassociation.mynetworth.utils.PixelDpConversionUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.assets.AssetsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
-import nationalmerchantsassociation.mynetworth.view_layer.dialog_fragments.AddItemAlertDialog;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 import static nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil.monthIntTOString;
@@ -88,11 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onDestroy(){
         presenter.onDestroy();
         super.onDestroy();
-    }
-
-    @OnClick (R.id.fab)
-    public void onAddItemClicked(){
-        new AddItemAlertDialog().show(getSupportFragmentManager(), "add_item_alert");
     }
 
     @OnClick (R.id.assets_tv)
@@ -208,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setLineChartData(List<Integer> netWorths){
-        lineChartUtil.udateDataset(netWorths);
+        lineChartUtil.updateDataset(netWorths);
     }
 
     @Override

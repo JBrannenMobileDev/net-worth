@@ -30,6 +30,7 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivity;
 
 public class DebtDetailsActivity extends AppCompatActivity implements DebtDetailsView {
 
@@ -54,18 +55,37 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
         initToolbar();
         initCallbacks();
         initListeners();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
-        presenter.onCreate(getIntent().getStringExtra("debtName"));
+        presenter.onResume(getIntent().getStringExtra("debtName"));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0)
+            presenter.onActivityResult(data.getStringExtra("debtName"));
     }
 
     @OnClick(R.id.debt_details_fab)
     public void onAddDebtClicked(){
-        launchUpdateAssetValue();
+        presenter.onUpdateClicked();
     }
 
-    private void launchUpdateAssetValue() {
-//        Intent intent = new Intent(getApplicationContext(), UpdateDebtActivity.class);
-//        startActivity(intent);
+    @OnClick(R.id.update_debt_tv)
+    public void onUpdateClicked(){
+        presenter.onUpdateClicked();
+    }
+
+    @Override
+    public void launchUpdateActivity(String debtName){
+        Intent intent = new Intent(this, DebtUpdateActivity.class);
+        intent.putExtra("debtName", debtName);
+        startActivityForResult(intent, 0);
     }
 
     private void initListeners() {
@@ -143,13 +163,13 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Window w = getWindow(); // in Activity's onCreate() for instance
+        Window w = getWindow(); // in Activity's onResume() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
     public void setLineChartData(List<Integer> debtValues){
-        lineChartUtil.udateDataset(debtValues);
+        lineChartUtil.updateDataset(debtValues);
     }
 
     @Override

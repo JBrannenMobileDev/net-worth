@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
@@ -43,6 +44,12 @@ public class AssetUpdateActivity extends AppCompatActivity implements AssetUpdat
         setTitle(getIntent().getStringExtra("assetName"));
         presenter.onCreate(getIntent().getStringExtra("assetName"));
         initListeners();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @OnClick(R.id.update_button)
+    public void onSaveClicked(){
+        presenter.onUpdate(Double.valueOf(valueEt.getText().toString().replaceAll("[^0-9.]", "")));
     }
 
     @Override
@@ -85,7 +92,7 @@ public class AssetUpdateActivity extends AppCompatActivity implements AssetUpdat
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Window w = getWindow(); // in Activity's onCreate() for instance
+        Window w = getWindow(); // in Activity's onResume() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
@@ -105,7 +112,11 @@ public class AssetUpdateActivity extends AppCompatActivity implements AssetUpdat
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_asset) {
-            presenter.onUpdate(valueEt.getText().toString().replaceAll("[^0-9.]", ""));
+            presenter.onUpdate(Double.valueOf(valueEt.getText().toString().replaceAll("[^0-9.]", "")));
+            return true;
+        }
+        if(id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

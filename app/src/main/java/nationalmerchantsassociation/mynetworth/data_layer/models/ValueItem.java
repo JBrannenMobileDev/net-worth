@@ -1,7 +1,10 @@
 package nationalmerchantsassociation.mynetworth.data_layer.models;
 
+import java.util.Calendar;
+
 import io.realm.RealmObject;
 import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
+import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
 
 /**
  * Created by jbrannen on 11/17/17.
@@ -27,6 +30,12 @@ public class ValueItem extends RealmObject{
 
     public String getDate(){
         return date;
+    }
+
+    public long getDateLong(){
+        Calendar current = Calendar.getInstance();
+        current.set(year, MonthConversionUtil.monthStringToInt(month), 1);
+        return current.getTimeInMillis();
     }
 
     public double getValue() {

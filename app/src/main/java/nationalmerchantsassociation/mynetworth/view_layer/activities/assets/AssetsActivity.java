@@ -58,8 +58,14 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
         initCallbacks();
         initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         presenter.onCreate();
     }
+
     @Override
     public void onDestroy(){
         presenter.onDestroy();
@@ -148,14 +154,14 @@ public class AssetsActivity extends AppCompatActivity implements AssetsView{
 
     @Override
     public void setLineChartData(List<Integer> assets) {
-        lineChartUtil.udateDataset(assets);
+        lineChartUtil.updateDataset(assets);
     }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Window w = getWindow(); // in Activity's onCreate() for instance
+        Window w = getWindow(); // in Activity's onResume() for instance
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 }

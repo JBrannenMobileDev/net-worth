@@ -11,11 +11,15 @@ public class TextFormatterUtil {
         return new DecimalFormat("###,###,###");
     }
 
-    public static String buildLineChartTitle(String range, int netChange, double mostRecentAssetValue){
+    public static String buildLineChartTitle(String range, int netChange, double mostRecentValue){
         try {
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + netChange / mostRecentAssetValue * 100 + "%) Past " + range;
+            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + getPercentageFormat().format(netChange / mostRecentValue * 100) + "%) Past " + range;
         }catch(ArithmeticException div_zero){
             return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
         }
+    }
+
+    public static DecimalFormat getPercentageFormat(){
+        return new DecimalFormat("###,###,###");
     }
 }

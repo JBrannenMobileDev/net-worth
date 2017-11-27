@@ -31,7 +31,7 @@ public class LineChartUtil {
         setupLineChart(lineChart, data, context.getResources().getColor(R.color.colorPrimary), context);
     }
 
-    public void udateDataset(List<Integer> values){
+    public void updateDataset(List<Integer> values){
         lineChart.setData(getData(values));
         lineChart.animateX(500);
     }
@@ -41,8 +41,8 @@ public class LineChartUtil {
         ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
         chart.getDescription().setEnabled(false);
         chart.setDrawGridBackground(false);
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
+        chart.setTouchEnabled(false);
+        chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setPinchZoom(false);
         chart.setBackgroundColor(Color.TRANSPARENT);

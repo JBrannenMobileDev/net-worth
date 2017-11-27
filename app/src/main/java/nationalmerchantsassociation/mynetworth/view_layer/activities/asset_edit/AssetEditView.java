@@ -2,15 +2,15 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit
 
 import java.util.List;
 
-
 /**
- * Created by jbrannen on 11/10/17.
+ * Created by jbrannen on 11/22/17.
  */
 
 public interface AssetEditView {
-    void launchAreYouSureDialog(String assetName);
-    void setValueEt(String value);
-    void onSave();
-    void setSavedCategoryName(String category);
-    void initSpinner(List<String> categories);
+    void initSpinners(List<String> categories);
+    void onUpdate(String assetName);
+    void onPostExecute(String assetName);
+    void finishActivityForResult(String assetName);
+    void initAssetName(String assetName);
+    void initAssetCategory(String assetCategory);
 }

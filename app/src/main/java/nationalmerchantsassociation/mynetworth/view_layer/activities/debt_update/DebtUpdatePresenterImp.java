@@ -1,8 +1,8 @@
-package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update;
 
 import io.realm.Realm;
 import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
-import nationalmerchantsassociation.mynetworth.data_layer.models.Asset;
+import nationalmerchantsassociation.mynetworth.data_layer.models.Debt;
 import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.CustomDateFormatter;
 import nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil;
@@ -12,24 +12,24 @@ import nationalmerchantsassociation.mynetworth.utils.YearListUtil;
  * Created by jbrannen on 11/22/17.
  */
 
-public class AssetUpdatePresenterImp implements AssetUpdatePresenter{
+public class DebtUpdatePresenterImp implements DebtUpdatePresenter {
 
-    private String assetName;
-    private AssetUpdateView view;
+    private String debtName;
+    private DebtUpdateView view;
     private Realm realm;
     private DataManager dataManager;
     private String month;
     private int year;
 
-    public AssetUpdatePresenterImp(AssetUpdateView assetUpdateView, Realm mainUiRealm, DataManager dataManager) {
-        this.view = assetUpdateView;
+    public DebtUpdatePresenterImp(DebtUpdateView debtUpdateView, Realm mainUiRealm, DataManager dataManager) {
+        this.view = debtUpdateView;
         this.realm = mainUiRealm;
         this.dataManager = dataManager;
     }
 
     @Override
-    public void onCreate(String assetName) {
-        this.assetName = assetName;
+    public void onCreate(String debtName) {
+        this.debtName = debtName;
         view.initDateSpinners(MonthConversionUtil.generateMonthList(), YearListUtil.generateYearList());
     }
 
@@ -45,19 +45,19 @@ public class AssetUpdatePresenterImp implements AssetUpdatePresenter{
 
     @Override
     public void onUpdate(Double value) {
-        boolean assetValueExists = realm.where(Asset.class).equalTo("name", assetName).
-                findFirst().getAssetValues().
+        boolean debtValueExists = realm.where(Debt.class).equalTo("name", debtName).
+                findFirst().getDebtValues().
                 stream().anyMatch(item -> item.getDate().equals(CustomDateFormatter.createDate(month, year)));
 
-        if(!assetValueExists){
+        if(!debtValueExists){
             ValueItem newValue = new ValueItem(value , month, year);
-            dataManager.updateAsset(newValue, assetName);
-            view.onUpdate(assetName);
+            dataManager.updateDebt(newValue, debtName);
+            view.onUpdate(debtName);
         }
     }
 
     @Override
     public void onBackPressed() {
-        view.finishActivityForResult(assetName);
+        view.finishActivityForResult(debtName);
     }
 }

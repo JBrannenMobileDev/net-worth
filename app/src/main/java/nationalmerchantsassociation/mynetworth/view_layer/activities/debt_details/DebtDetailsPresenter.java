@@ -5,8 +5,10 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_detai
  */
 
 public interface DebtDetailsPresenter {
-    void onCreate(String debtName);
+    void onResume(String debtName);
     void onDebtValueSelected(String date);
     void onLineChartValueSelected(float x);
     void onLineChartNotSelected();
+    void onUpdateClicked();
+    void onActivityResult(String debtName);
 }

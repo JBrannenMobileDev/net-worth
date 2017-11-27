@@ -39,6 +39,10 @@ public class Asset extends RealmObject{
         return assetValues;
     }
 
+    public RealmList<ValueItem> getAssetValuesRealm() {
+        return assetValues;
+    }
+
     public void setAssetValues(RealmList<ValueItem> assetValues) {
         this.assetValues = assetValues;
     }
