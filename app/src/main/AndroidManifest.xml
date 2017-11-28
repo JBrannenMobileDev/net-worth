@@ -58,6 +58,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
+            android:name=".view_layer.activities.debt_edit.DebtEditActivity"
+            android:parentActivityName=".view_layer.activities.debt_details.DebtDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:screenOrientation="portrait"
             android:name=".view_layer.activities.asset_update.AssetUpdateActivity"
             android:parentActivityName=".view_layer.activities.asset_details.AssetDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

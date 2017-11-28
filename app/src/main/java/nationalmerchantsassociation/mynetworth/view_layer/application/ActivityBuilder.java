@@ -16,6 +16,8 @@ import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt
 import nationalmerchantsassociation.mynetworth.view_layer.activities.create_debt.CreateDebtActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_details.DebtDetailsActivityModule;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_edit.DebtEditActivity;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_edit.DebtEditActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivityModule;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.DebtsActivity;
@@ -59,4 +61,7 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = AssetEditActivityModule.class)
     abstract AssetEditActivity bindAssetEditActivity();
+
+    @ContributesAndroidInjector(modules = DebtEditActivityModule.class)
+    abstract DebtEditActivity bindDebtEditActivity();
 }

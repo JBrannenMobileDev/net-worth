@@ -10,7 +10,7 @@ public interface AssetEditView {
     void initSpinners(List<String> categories);
     void onUpdate(String assetName);
     void onPostExecute(String assetName);
-    void finishActivityForResult(String assetName);
+    void finishActivityForResult(String assetName, int resultCode);
     void initAssetName(String assetName);
     void initAssetCategory(String assetCategory);
 }

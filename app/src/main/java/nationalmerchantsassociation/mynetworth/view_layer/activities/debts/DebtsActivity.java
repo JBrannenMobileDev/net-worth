@@ -57,6 +57,11 @@ public class DebtsActivity extends AppCompatActivity implements DebtsView{
         initCallbacks();
         initListeners();
         lineChartUtil.initLineChart(lineChart, getApplicationContext());
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         presenter.onCreate();
     }
 

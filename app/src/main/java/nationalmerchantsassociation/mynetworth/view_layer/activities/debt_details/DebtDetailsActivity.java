@@ -30,6 +30,7 @@ import nationalmerchantsassociation.mynetworth.data_layer.models.ValueItem;
 import nationalmerchantsassociation.mynetworth.utils.BaseCallback;
 import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
+import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_edit.DebtEditActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivity;
 
 public class DebtDetailsActivity extends AppCompatActivity implements DebtDetailsView {
@@ -38,8 +39,7 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
     @BindView(R.id.debt_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.debt_line_chart)LineChart lineChart;
     @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
-    @Inject
-    DebtDetailsPresenter presenter;
+    @Inject DebtDetailsPresenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterDebtDetails adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -67,13 +67,10 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0)
+        if(resultCode == 1)
             presenter.onActivityResult(data.getStringExtra("debtName"));
-    }
-
-    @OnClick(R.id.debt_details_fab)
-    public void onAddDebtClicked(){
-        presenter.onUpdateClicked();
+        if(resultCode == 2)
+            finish();
     }
 
     @OnClick(R.id.update_debt_tv)
@@ -82,10 +79,18 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
     }
 
     @Override
-    public void launchUpdateActivity(String debtName){
+    public void startUpdateActivity(String debtName){
         Intent intent = new Intent(this, DebtUpdateActivity.class);
         intent.putExtra("debtName", debtName);
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void startEditActivity(String debtName, String categoryName){
+        Intent intent = new Intent(getApplicationContext(), DebtEditActivity.class);
+        intent.putExtra("debtName", debtName);
+        intent.putExtra("debtCategory", categoryName);
+        startActivityForResult(intent, 1);
     }
 
     private void initListeners() {
@@ -117,25 +122,16 @@ public class DebtDetailsActivity extends AppCompatActivity implements DebtDetail
     }
 
     @Override
-    public void startEditActivity(String debtName, String date){
-//        Intent intent = new Intent(getApplicationContext(), DebtsEditActivity.class);
-//        intent.putExtra("debtName", debtName);
-//        intent.putExtra("date", date);
-//        startActivity(intent);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.debts_menu, menu);
+        getMenuInflater().inflate(R.menu.debt_details, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_add) {
-//            Intent intent = new Intent(this, DebtEditActivity.class);
-//            startActivity(intent);
+        if (id == R.id.action_edit_debt) {
+            presenter.onEditSelected();
             return true;
         }
         return super.onOptionsItemSelected(item);

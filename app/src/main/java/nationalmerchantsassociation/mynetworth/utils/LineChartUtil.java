@@ -41,8 +41,8 @@ public class LineChartUtil {
         ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
         chart.getDescription().setEnabled(false);
         chart.setDrawGridBackground(false);
-        chart.setTouchEnabled(false);
-        chart.setDragEnabled(false);
+        chart.setTouchEnabled(true);
+        chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
         chart.setPinchZoom(false);
         chart.setBackgroundColor(Color.TRANSPARENT);

@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit;
+package nationalmerchantsassociation.mynetworth.view_layer.activities.debt_edit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,57 +22,55 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
-import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
 
-public class AssetEditActivity extends AppCompatActivity implements AssetEditView {
+public class DebtEditActivity extends AppCompatActivity implements DebtEditView {
 
 
-    @BindView(R.id.toolbar_edit_asset)Toolbar toolbar;
-    @BindView(R.id.asset_name_input)EditText nameInput;
+    @BindView(R.id.toolbar_edit_debt)Toolbar toolbar;
+    @BindView(R.id.debt_name_input)EditText nameInput;
     @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
-    @Inject
-    AssetEditPresenter presenter;
+    @Inject DebtEditPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_asset);
+        setContentView(R.layout.activity_edit_debt);
         ButterKnife.bind(this);
         initToolbar();
-        setTitle(getIntent().getStringExtra("assetName"));
-        presenter.onCreate(getIntent().getStringExtra("assetName"), getIntent().getStringExtra("assetCategory"));
+        setTitle(getIntent().getStringExtra("debtName"));
+        presenter.onCreate(getIntent().getStringExtra("debtName"), getIntent().getStringExtra("debtCategory"));
         initListeners();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OnClick(R.id.save_button)
     public void onSaveclicked(){
-        presenter.saveAsset(nameInput.getText().toString());
+        presenter.saveDebt(nameInput.getText().toString());
     }
 
     @Override
-    public void onPostExecute(String assetName) {
-        finishActivityForResult(assetName, 1);
+    public void onPostExecute(String debtName) {
+        finishActivityForResult(debtName, 1);
     }
 
     @Override
-    public void finishActivityForResult(String assetName, int resultCode) {
+    public void finishActivityForResult(String debtName, int resultCode) {
         Intent intent = getIntent();
-        intent.putExtra("assetName", assetName);
+        intent.putExtra("debtName", debtName);
         setResult(resultCode, intent);
         finish();
     }
 
     @Override
-    public void initAssetName(String assetName) {
-        nameInput.setText(assetName);
+    public void initDebtName(String debtName) {
+        nameInput.setText(debtName);
     }
 
     @Override
-    public void initAssetCategory(String assetCategory) {
-        categorySpinner.setText(assetCategory);
+    public void initDebtCategory(String debtCategory) {
+        categorySpinner.setText(debtCategory);
     }
 
     @Override
@@ -82,7 +79,7 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
     }
 
     private void initListeners() {
-        categorySpinner.setOnClickListener(view -> presenter.initSpinner(getResources().getStringArray(R.array.asset_category_names)));
+        categorySpinner.setOnClickListener(view -> presenter.initSpinner(getResources().getStringArray(R.array.debt_category_names)));
     }
 
     @Override
@@ -103,7 +100,7 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.asset_edit, menu);
+        getMenuInflater().inflate(R.menu.debt_edit, menu);
         return true;
     }
 
@@ -115,12 +112,12 @@ public class AssetEditActivity extends AppCompatActivity implements AssetEditVie
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_save_asset) {
-            presenter.saveAsset(nameInput.getText().toString());
+        if (id == R.id.action_save_debt) {
+            presenter.saveDebt(nameInput.getText().toString());
             return true;
         }
-        if (id == R.id.action_delete_asset) {
-            presenter.deleteAsset();
+        if (id == R.id.action_delete_debt) {
+            presenter.deleteDebt();
             return true;
         }
         if(id == android.R.id.home) {

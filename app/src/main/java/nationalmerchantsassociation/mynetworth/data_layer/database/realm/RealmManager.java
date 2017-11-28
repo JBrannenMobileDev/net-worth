@@ -44,13 +44,21 @@ public class RealmManager {
     }
 
     public void updateAsset(String assetName, String assetCategory, String previousName){
-        Asset asset = realm.where(Asset.class).equalTo("name", previousName).findFirst();
-        Asset newAsset = new Asset();
-        newAsset.setName(assetName);
-        newAsset.setCategory(assetCategory);
-        newAsset.setAssetValues(asset.getAssetValuesRealm());
-        insertOrUpdateAsset(newAsset);
-        deleteAsset(previousName);
+        if(!assetName.equals(previousName)) {
+            Asset asset = realm.where(Asset.class).equalTo("name", previousName).findFirst();
+            Asset newAsset = new Asset();
+            newAsset.setName(assetName);
+            newAsset.setCategory(assetCategory);
+            newAsset.setAssetValues(asset.getAssetValuesRealm());
+            insertOrUpdateAsset(newAsset);
+            deleteAsset(previousName);
+        }else{
+            realm.executeTransaction(bgRealm -> {
+                Asset asset = bgRealm.where(Asset.class).equalTo("name", assetName).findFirst();
+                asset.setCategory(assetCategory);
+                bgRealm.copyToRealmOrUpdate(asset);
+            });
+        }
     }
 
     public void updateDebt(ValueItem newValue, String debtName){
@@ -62,8 +70,21 @@ public class RealmManager {
     }
 
     public void updateDebt(String debtName, String categoryName, String previousName){
-        Debt debt = realm.where(Debt.class).equalTo("name", previousName).findFirst();
-
+        if(!debtName.equals(previousName)) {
+            Debt debt = realm.where(Debt.class).equalTo("name", previousName).findFirst();
+            Debt newDebt = new Debt();
+            newDebt.setName(debtName);
+            newDebt.setCategory(categoryName);
+            newDebt.setDebtValues(debt.getDebtValues());
+            insertOrUpdateDebt(newDebt);
+            deleteDebt(previousName);
+        }else{
+            realm.executeTransaction(bgRealm -> {
+                Debt debt = bgRealm.where(Debt.class).equalTo("name", debtName).findFirst();
+                debt.setCategory(categoryName);
+                bgRealm.copyToRealmOrUpdate(debt);
+            });
+        }
     }
 
     public void deleteAsset(final String assetName){

@@ -11,4 +11,5 @@ public interface DebtDetailsPresenter {
     void onLineChartNotSelected();
     void onUpdateClicked();
     void onActivityResult(String debtName);
+    void onEditSelected();
 }

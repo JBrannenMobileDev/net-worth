@@ -49,11 +49,12 @@ public class AssetEditPresenterImp implements AssetEditPresenter {
     @Override
     public void deleteAsset() {
         dataManager.deleteAsset(assetName);
+        view.finishActivityForResult(assetName, 2);
     }
 
     @Override
     public void onBackPressed() {
-        view.finishActivityForResult(assetName);
+        view.finishActivityForResult(assetName, 1);
     }
 
     @Override

@@ -67,8 +67,10 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0)
+        if(resultCode == 1)
             presenter.onActivityResult(data.getStringExtra("assetName"));
+        if(resultCode == 2)
+            finish();
     }
 
     @OnClick(R.id.update_asset_tv)
@@ -80,7 +82,7 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
     public void startUpdateActivity(String assetName){
         Intent intent = new Intent(this, AssetUpdateActivity.class);
         intent.putExtra("assetName", assetName);
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class AssetDetailsActivity extends AppCompatActivity implements AssetDeta
         Intent intent = new Intent(getApplicationContext(), AssetEditActivity.class);
         intent.putExtra("assetName", assetName);
         intent.putExtra("assetCategory", categoryName);
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 1);
     }
 
     private void initListeners() {

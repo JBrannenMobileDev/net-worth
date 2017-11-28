@@ -18,6 +18,7 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
     private DebtDetailsView view;
     private Realm realm;
     private String debtName;
+    private String newDebtName;
     private DebtDetailsModel model;
     private Debt debt;
 
@@ -28,7 +29,9 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
 
     @Override
     public void onResume(String debtName) {
-        this.debtName = debtName;
+        if(newDebtName == null){
+            this.debtName = debtName;
+        }
         initData();
     }
 
@@ -50,23 +53,32 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
 
     @Override
     public void onUpdateClicked() {
-        view.launchUpdateActivity(debtName);
+        view.startUpdateActivity(debtName);
     }
 
     @Override
     public void onActivityResult(String debtName) {
         this.debtName = debtName;
+        this.newDebtName = debtName;
         initData();
+    }
+
+    @Override
+    public void onEditSelected() {
+        view.startEditActivity(debtName, debt.getCategory());
     }
 
     private void initData() {
         debt = realm.where(Debt.class).equalTo("name", debtName).findFirst();
         if(debt != null) {
-            debt.addChangeListener(debtsRealtime -> view.updateRecycler());
+            debt.addChangeListener(debtsRealtime -> {
+                view.updateRecycler();
+                if(debt.isValid()) {
+                    setDefaultState();
+                }
+            });
             view.initRecycler(ValueItemUtil.sortByDate(debt.getDebtValues()));
-            view.setTitleWithTotal(debt.getCurrentValue(), debtName);
-            view.setLineChartData(buildDebtDetailsModel(debt.getDebtValues(), LineChartDataMapper.MONTHS_6).getDebtValues());
-            view.setLineChartTitle(buildLineChartTitle("6M"));
+            setDefaultState();
         }
     }
 
@@ -75,12 +87,10 @@ public class DebtDetailsPresenterImp implements DebtDetailsPresenter {
         return this.model;
     }
 
-    private String buildLineChartTitle(String range){
-        int netChange = (model.getDebtValues().get(5))-(model.getDebtValues().get(0));
-        try {
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + netChange / (model.getDebtValues().get(5)) * 100 + "%) Past " + range;
-        }catch(ArithmeticException div_zero){
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
-        }
+    private void setDefaultState(){
+        view.setTitleWithTotal(debt.getCurrentValue(), debtName);
+        view.setLineChartData(buildDebtDetailsModel(debt.getDebtValues(), LineChartDataMapper.MONTHS_6).getDebtValues());
+        view.setLineChartTitle(TextFormatterUtil.buildLineChartTitle("6M",
+                (model.getDebtValues().get(5))-(model.getDebtValues().get(0)), model.getDebtValues().get(5)));
     }
 }
