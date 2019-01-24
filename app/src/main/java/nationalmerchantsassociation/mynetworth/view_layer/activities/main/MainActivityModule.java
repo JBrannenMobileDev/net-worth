@@ -4,7 +4,6 @@ package nationalmerchantsassociation.mynetworth.view_layer.activities.main;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
-import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 
 /**
  * Created by jbrannen on 11/13/17.
@@ -14,12 +13,12 @@ import nationalmerchantsassociation.mynetworth.utils.LineChartUtil;
 public class MainActivityModule {
 
     @Provides
-    MainView provideMainView(MainActivity mainActivity){
+    MainContract.View provideMainView(MainActivity mainActivity){
         return mainActivity;
     }
 
     @Provides
-    MainPresenter provideMainPresenter(MainView mainView, Realm mainUiRealm){
-        return new MainPresenterImp(mainView, mainUiRealm);
+    MainContract.Presenter provideMainPresenter(MainContract.View mainView, Realm mainUiRealm){
+        return new MainPresenter(mainView, mainUiRealm);
     }
 }

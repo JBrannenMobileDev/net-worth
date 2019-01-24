@@ -1,4 +1,4 @@
-package nationalmerchantsassociation.mynetworth.view_layer.application;
+package nationalmerchantsassociation.mynetworth.view_layer.application_di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

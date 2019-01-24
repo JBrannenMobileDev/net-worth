@@ -11,12 +11,12 @@ import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 public class CreateAssetActivityModule {
 
     @Provides
-    CreateAssetView provideCreateAssetView(CreateAssetActivity createAssetActivity){
+    CreateAssetContract.View provideCreateAssetView(CreateAssetActivity createAssetActivity){
         return createAssetActivity;
     }
 
     @Provides
-    CreateAssetPresenter provideCreateAssetPresenter(CreateAssetView createAssetView, DataManager dataManager){
-        return new CreateAssetPresenterImp(createAssetView, dataManager);
+    CreateAssetContract.Presenter provideCreateAssetPresenter(CreateAssetContract.View createAssetView, DataManager dataManager){
+        return new CreateAssetPresenter(createAssetView, dataManager);
     }
 }

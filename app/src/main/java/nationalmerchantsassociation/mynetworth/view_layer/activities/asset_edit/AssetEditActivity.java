@@ -26,14 +26,13 @@ import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
 
-public class AssetEditActivity extends AppCompatActivity implements AssetEditView {
+public class AssetEditActivity extends AppCompatActivity implements AssetsEditContract.View {
 
 
     @BindView(R.id.toolbar_edit_asset)Toolbar toolbar;
     @BindView(R.id.asset_name_input)EditText nameInput;
     @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
-    @Inject
-    AssetEditPresenter presenter;
+    @Inject AssetsEditContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

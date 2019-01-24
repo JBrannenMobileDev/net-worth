@@ -3,7 +3,7 @@
     package="nationalmerchantsassociation.mynetworth">
 
     <application
-        android:name=".view_layer.application.NetWorthApplication"
+        android:name=".view_layer.application_di.NetWorthApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

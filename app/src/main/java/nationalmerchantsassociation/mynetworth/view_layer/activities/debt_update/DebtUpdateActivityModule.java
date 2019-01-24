@@ -14,13 +14,13 @@ import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 public class DebtUpdateActivityModule {
 
     @Provides
-    DebtUpdateView provideDebtUpdateView(DebtUpdateActivity debtUpdateActivity){
+    DebtUpdateContract.View provideDebtUpdateView(DebtUpdateActivity debtUpdateActivity){
         return debtUpdateActivity;
     }
 
 
     @Provides
-    DebtUpdatePresenter provideDebtUpdatePresenter(DebtUpdateView debtUpdateView, Realm mainUiRealm, DataManager dataManager){
-        return new DebtUpdatePresenterImp(debtUpdateView, mainUiRealm, dataManager);
+    DebtUpdateContract.Presenter provideDebtUpdatePresenter(DebtUpdateContract.View debtUpdateView, Realm mainUiRealm, DataManager dataManager){
+        return new DebtUpdatePresenter(debtUpdateView, mainUiRealm, dataManager);
     }
 }

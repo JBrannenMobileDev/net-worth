@@ -33,13 +33,13 @@ import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_edit.DebtEditActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.debt_update.DebtUpdateActivity;
 
-public class DebtDetailsActivity extends AppCompatActivity implements DebtDetailsView {
+public class DebtDetailsActivity extends AppCompatActivity implements DebtDetailsContract.View {
 
     @BindView(R.id.toolbar_debt_details)Toolbar toolbar;
     @BindView(R.id.debt_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.debt_line_chart)LineChart lineChart;
     @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
-    @Inject DebtDetailsPresenter presenter;
+    @Inject DebtDetailsContract.Presenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterDebtDetails adapter;
     private RecyclerView.LayoutManager layoutManager;

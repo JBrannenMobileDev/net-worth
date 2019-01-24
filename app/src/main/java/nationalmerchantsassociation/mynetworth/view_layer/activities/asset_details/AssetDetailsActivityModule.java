@@ -12,12 +12,12 @@ import io.realm.Realm;
 public class AssetDetailsActivityModule {
 
     @Provides
-    AssetDetailsView provideAssetsView(AssetDetailsActivity assetsActivity){
+    AssetDetailsContract.View provideAssetsView(AssetDetailsActivity assetsActivity){
         return assetsActivity;
     }
 
     @Provides
-    AssetDetailsPresenter provideAssetsPresenter(AssetDetailsView assetsView, Realm mainUiRealm){
-        return new AssetDetailsPresenterImp(assetsView, mainUiRealm);
+    AssetDetailsContract.Presenter provideAssetsPresenter(AssetDetailsContract.View assetsView, Realm mainUiRealm){
+        return new AssetDetailsPresenter(assetsView, mainUiRealm);
     }
 }

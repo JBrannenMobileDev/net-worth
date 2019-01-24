@@ -1,11 +1,10 @@
-package nationalmerchantsassociation.mynetworth.view_layer.application;
+package nationalmerchantsassociation.mynetworth.view_layer.application_di;
 
 import android.app.Activity;
 import android.app.Application;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import io.realm.Realm;

@@ -24,13 +24,13 @@ import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 
 
-public class DebtEditActivity extends AppCompatActivity implements DebtEditView {
+public class DebtEditActivity extends AppCompatActivity implements DebtEditContract.View {
 
 
     @BindView(R.id.toolbar_edit_debt)Toolbar toolbar;
     @BindView(R.id.debt_name_input)EditText nameInput;
     @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
-    @Inject DebtEditPresenter presenter;
+    @Inject DebtEditContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

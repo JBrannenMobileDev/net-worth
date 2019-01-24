@@ -22,16 +22,13 @@ public class RecyclerViewAdapterDebts extends RecyclerView.Adapter<RecyclerViewA
     private List<Debt> mDataset;
     private BaseCallback<Debt> debtSelectedCallback;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public FrameLayout debtItemLayout;
-        public TextView debtName;
-        public TextView debtValue;
-        public TextView category;
-        public ViewHolder(View v, final BaseCallback<Debt> rCallback) {
+        FrameLayout debtItemLayout;
+        TextView debtName;
+        TextView debtValue;
+        TextView category;
+        ViewHolder(View v, final BaseCallback<Debt> rCallback) {
             super(v);
             debtItemLayout = v.findViewById(R.id.debt_item_layout);
             debtName = v.findViewById(R.id.debt_name);
@@ -41,20 +38,19 @@ public class RecyclerViewAdapterDebts extends RecyclerView.Adapter<RecyclerViewA
         }
     }
 
+
     public RecyclerViewAdapterDebts(List<Debt> dataset, BaseCallback<Debt> debtSelected) {
         mDataset = dataset;
         this.debtSelectedCallback = debtSelected;
     }
 
+
     @Override
     public RecyclerViewAdapterDebts.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.debt_item, parent, false);
-
-
-        // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v, debtSelectedCallback);
-        return vh;
+        return new ViewHolder(v, debtSelectedCallback);
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -63,6 +59,7 @@ public class RecyclerViewAdapterDebts extends RecyclerView.Adapter<RecyclerViewA
         holder.debtValue.setText("$" + formatter.format(mDataset.get(position).getCurrentValueItem().getValue()));
         holder.category.setText(mDataset.get(position).getCategory());
     }
+
 
     @Override
     public int getItemCount() {

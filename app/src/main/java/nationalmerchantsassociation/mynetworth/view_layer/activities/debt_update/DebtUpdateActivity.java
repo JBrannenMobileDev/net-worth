@@ -25,14 +25,14 @@ import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
 
-public class DebtUpdateActivity extends AppCompatActivity implements DebtUpdateView {
+public class DebtUpdateActivity extends AppCompatActivity implements DebtUpdateContract.View {
 
 
     @BindView(R.id.toolbar_update_debt)Toolbar toolbar;
     @BindView(R.id.debt_value_input)EditText valueEt;
     @BindView(R.id.month_spinner)MaterialSpinner monthSpinner;
     @BindView(R.id.year_spinner)MaterialSpinner yearSpinner;
-    @Inject DebtUpdatePresenter presenter;
+    @Inject DebtUpdateContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

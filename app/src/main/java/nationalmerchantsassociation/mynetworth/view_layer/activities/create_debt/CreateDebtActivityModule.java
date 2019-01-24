@@ -11,12 +11,12 @@ import nationalmerchantsassociation.mynetworth.data_layer.DataManager;
 public class CreateDebtActivityModule {
 
     @Provides
-    CreateDebtView provideCreateDebtView(CreateDebtActivity createDebtActivity){
+    CreateDebtContract.View provideCreateDebtView(CreateDebtActivity createDebtActivity){
         return createDebtActivity;
     }
 
     @Provides
-    CreateDebtPresenter provideCreateDebtPresenter(CreateDebtView createDebtView, DataManager dataManager){
-        return new CreateDebtPresenterImp(createDebtView, dataManager);
+    CreateDebtContract.Presenter provideCreateDebtPresenter(CreateDebtContract.View createDebtView, DataManager dataManager){
+        return new CreateDebtPresenter(createDebtView, dataManager);
     }
 }

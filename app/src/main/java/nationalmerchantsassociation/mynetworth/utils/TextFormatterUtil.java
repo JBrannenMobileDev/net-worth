@@ -13,7 +13,11 @@ public class TextFormatterUtil {
 
     public static String buildLineChartTitle(String range, int netChange, double mostRecentValue){
         try {
-            return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + getPercentageFormat().format(netChange / mostRecentValue * 100) + "%) Past " + range;
+            if(mostRecentValue > 0) {
+                return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(" + getPercentageFormat().format(netChange / mostRecentValue * 100) + "%) Past " + range;
+            }else{
+                return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + "(0%) Past " + range;
+            }
         }catch(ArithmeticException div_zero){
             return "$" + TextFormatterUtil.getCurrencyFormatter().format(netChange) + " Past " + range;
         }

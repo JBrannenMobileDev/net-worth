@@ -33,11 +33,8 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         dateToHighlight = date;
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public FrameLayout assetItemLayout;
         public TextView assetDate;
         public TextView assetValue;
@@ -50,6 +47,7 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         }
     }
 
+
     public RecyclerViewAdapterAssetDetails(List<ValueItem> dataset, BaseCallback<ValueItem> assetSelected, Context context) {
         mDataset = dataset;
         dateToHighlight = "";
@@ -57,15 +55,13 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         this.assetSelectedCallback = assetSelected;
     }
 
+
     @Override
     public RecyclerViewAdapterAssetDetails.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_detail_item, parent, false);
-
-
-        // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v, assetSelectedCallback);
-        return vh;
+        return new ViewHolder(v, assetSelectedCallback);
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -77,6 +73,7 @@ public class RecyclerViewAdapterAssetDetails extends RecyclerView.Adapter<Recycl
         holder.assetDate.setText(CustomDateFormatter.createDate(mDataset.get(position).getMonth(), mDataset.get(position).getYear()));
         holder.assetValue.setText("$" + getCurrencyFormatter().format(mDataset.get(position).getValue()));
     }
+
 
     @Override
     public int getItemCount() {

@@ -33,13 +33,13 @@ import nationalmerchantsassociation.mynetworth.utils.TextFormatterUtil;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_edit.AssetEditActivity;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.asset_update.AssetUpdateActivity;
 
-public class AssetDetailsActivity extends AppCompatActivity implements AssetDetailsView {
+public class AssetDetailsActivity extends AppCompatActivity implements AssetDetailsContract.View {
 
     @BindView(R.id.toolbar_asset)Toolbar toolbar;
     @BindView(R.id.asset_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.asset_line_chart)LineChart lineChart;
     @BindView(R.id.linechart_title_tv)TextView lineChartTitle;
-    @Inject AssetDetailsPresenter presenter;
+    @Inject AssetDetailsContract.Presenter presenter;
     @Inject LineChartUtil lineChartUtil;
     private RecyclerViewAdapterAssetDetails adapter;
     private RecyclerView.LayoutManager layoutManager;

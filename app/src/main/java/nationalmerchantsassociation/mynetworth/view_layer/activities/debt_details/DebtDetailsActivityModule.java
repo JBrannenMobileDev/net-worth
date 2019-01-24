@@ -12,12 +12,12 @@ import io.realm.Realm;
 public class DebtDetailsActivityModule {
 
     @Provides
-    DebtDetailsView provideAssetsView(DebtDetailsActivity debtActivity){
+    DebtDetailsContract.View provideAssetsView(DebtDetailsActivity debtActivity){
         return debtActivity;
     }
 
     @Provides
-    DebtDetailsPresenter provideDebtPresenter(DebtDetailsView debtView, Realm mainUiRealm){
-        return new DebtDetailsPresenterImp(debtView, mainUiRealm);
+    DebtDetailsContract.Presenter provideDebtPresenter(DebtDetailsContract.View debtView, Realm mainUiRealm){
+        return new DebtDetailsPresenter(debtView, mainUiRealm);
     }
 }

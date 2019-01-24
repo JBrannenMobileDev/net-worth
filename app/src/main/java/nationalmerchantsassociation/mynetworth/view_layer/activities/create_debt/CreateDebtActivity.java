@@ -21,7 +21,7 @@ import dagger.android.AndroidInjection;
 import nationalmerchantsassociation.mynetworth.R;
 import nationalmerchantsassociation.mynetworth.view_layer.activities.main.NumberTextWatcher;
 
-public class CreateDebtActivity extends AppCompatActivity implements CreateDebtView {
+public class CreateDebtActivity extends AppCompatActivity implements CreateDebtContract.View {
 
     @BindView(R.id.debt_value_input)EditText valueInput;
     @BindView(R.id.toolbar_create_debt)Toolbar toolbar;
@@ -29,7 +29,7 @@ public class CreateDebtActivity extends AppCompatActivity implements CreateDebtV
     @BindView(R.id.category_spinner)MaterialSpinner categorySpinner;
     @BindView(R.id.month_spinner)MaterialSpinner monthSpinner;
     @BindView(R.id.year_spinner)MaterialSpinner yearSpinner;
-    @Inject CreateDebtPresenter presenter;
+    @Inject CreateDebtContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

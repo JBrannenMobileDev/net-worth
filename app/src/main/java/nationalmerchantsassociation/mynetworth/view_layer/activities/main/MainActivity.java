@@ -5,14 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,19 +45,23 @@ import nationalmerchantsassociation.mynetworth.view_layer.activities.debts.Debts
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 import static nationalmerchantsassociation.mynetworth.utils.MonthConversionUtil.monthIntTOString;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @BindView(R.id.dashboard_bar_chart) BarChart barChart;
     @BindView(R.id.line_chart)LineChart lineChart;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.net_worth_tv)TextView netWorth;
     @BindView(R.id.empty_state_iv)ImageView emptyStateImage;
     @BindView(R.id.empty_state_tv)TextView emptyStateTv;
     @BindView(R.id.linechart_title_tv)TextView lineChartTitleTv;
+    @BindView(R.id.six_month_tv)TextView sixMonths;
+    @BindView(R.id.one_year_tv)TextView oneYear;
+    @BindView(R.id.five_year_tv)TextView fiveYears;
+    @BindView(R.id.ten_year_tv)TextView tenYears;
+    @BindView(R.id.all)TextView all;
 
-    @Inject MainPresenter presenter;
+    @Inject MainContract.Presenter presenter;
     @Inject LineChartUtil lineChartUtil;
 
     @Override
@@ -98,13 +97,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-    private void initListeners() {
-        navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    @OnClick (R.id.six_month_tv)
+    public void onSixMonthSelected(){
+        presenter.onSixMonthsSelected();
+        setAllOptionsToDefaultColor();
+        sixMonths.setTextColor(Color.WHITE);
+    }
 
+    @OnClick (R.id.one_year_tv)
+    public void onOneYearhSelected(){
+        presenter.onOneYearSelected();
+        setAllOptionsToDefaultColor();
+        oneYear.setTextColor(Color.WHITE);
+    }
+
+    @OnClick (R.id.five_year_tv)
+    public void onFiveYearSelected(){
+        presenter.onFiveYearsSelected();
+        setAllOptionsToDefaultColor();
+        fiveYears.setTextColor(Color.WHITE);
+    }
+
+    @OnClick (R.id.ten_year_tv)
+    public void onTenYearSelected(){
+        presenter.onTenYearsSelected();
+        setAllOptionsToDefaultColor();
+        tenYears.setTextColor(Color.WHITE);
+    }
+
+    @OnClick (R.id.all)
+    public void onAllSelected(){
+        presenter.onAllSelected();
+        setAllOptionsToDefaultColor();
+        all.setTextColor(Color.WHITE);
+    }
+
+    private void setAllOptionsToDefaultColor() {
+        sixMonths.setTextColor(getResources().getColor(R.color.colorPrimary));
+        oneYear.setTextColor(getResources().getColor(R.color.colorPrimary));
+        fiveYears.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tenYears.setTextColor(getResources().getColor(R.color.colorPrimary));
+        all.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    private void initListeners() {
         lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
@@ -210,62 +246,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setLineChartTitle(String lineChartTitle) {
         lineChartTitleTv.setText(lineChartTitle);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

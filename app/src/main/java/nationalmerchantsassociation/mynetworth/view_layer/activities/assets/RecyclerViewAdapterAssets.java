@@ -23,11 +23,8 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
     private List<Asset> mDataset;
     private BaseCallback<Asset> assetSelectedCallback;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public FrameLayout assetItemLayout;
         public TextView assetName;
         public TextView assetValue;
@@ -42,20 +39,19 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
         }
     }
 
+
     public RecyclerViewAdapterAssets(List<Asset> dataset, BaseCallback<Asset> assetSelected) {
         mDataset = dataset;
         this.assetSelectedCallback = assetSelected;
     }
 
+
     @Override
     public RecyclerViewAdapterAssets.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_item, parent, false);
-
-
-        // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v, assetSelectedCallback);
-        return vh;
+        return new ViewHolder(v, assetSelectedCallback);
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -64,6 +60,7 @@ public class RecyclerViewAdapterAssets extends RecyclerView.Adapter<RecyclerView
         holder.assetValue.setText("$" + getCurrencyFormatter().format(mDataset.get(position).getCurrentValueItem().getValue()));
         holder.category.setText(mDataset.get(position).getCategory());
     }
+
 
     @Override
     public int getItemCount() {
